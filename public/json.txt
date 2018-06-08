@@ -1,0 +1,10 @@
+dosomething({
+    "data":"JSONP Works"
+});
+
+anotherthing({
+	"data": {
+		"name": "Edward",
+		"age": 22
+	}
+})
