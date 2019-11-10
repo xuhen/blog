@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        用 generators 和 promise 模拟 async 的功能 - undefined
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i>  </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="https://dn-coding-net-production-static.qbox.me/static/7a51352fa766f4176d7c4543339e0e98.png" />
+        </div>
+        <div class="name">
+            <i>Edward xu</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是-generator"><span class="toc-text">什么是 generator</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#generator-的特性对异步编程有什么好处"><span class="toc-text">generator 的特性对异步编程有什么好处</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i>  </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        用 generators 和 promise 模拟 async 的功能
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2019-11-10 16:06:55</span></span>
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <p>想象一下，如果我们有一段async 写的函数，我们能用 promises 和 generator 去重写吗？</p>
+<p>比如下面这段代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">init</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> res1 = <span class="keyword">await</span> doTask1();</span><br><span class="line">    <span class="built_in">console</span>.log(res1);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> res2 = <span class="keyword">await</span> doTask2(res1);</span><br><span class="line">    <span class="built_in">console</span>.log(res2);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> res3 = <span class="keyword">await</span> doTask3(res2);</span><br><span class="line">    <span class="built_in">console</span>.log(res3);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> res3;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码执行了三个异步任务，每个任务都依赖于前一个任务的完成；最终返回了最后一个任务的结果。</p>
+<p>我们能用generator去实现上面的功能吗？</p>
+<h2 id="什么是-generator"><a href="#什么是-generator" class="headerlink" title="什么是 generator"></a>什么是 generator</h2><p>generator 简单来说就是能退出执行环境，随后又能重新进入执行环境的函数。<br>比如下面的例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">gen</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> a = <span class="keyword">yield</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">const</span> b = <span class="keyword">yield</span> <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">const</span> c = <span class="keyword">yield</span> <span class="string">"foo"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">console</span>.log(a, b, c);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>generator 函数有些有意思的特点</p>
+<ul>
+<li>当一个generator函数被执行的时候，函数体不是马上执行的；而是返回了一个可遍历的对象。</li>
+<li>唯一能执行 generator 函数体的方法是执行在可遍历对象上的 next 函数；每次 next 方法执行到下个 yield 表达式时停止。然后返回此处的结果作为value 值。</li>
+<li>next 方法也可以接收参数。执行next并传入参数会用传入的值替换掉当前停顿的yield表达式，然后继续执行到下个 yield 表达式。</li>
+</ul>
+<h2 id="generator-的特性对异步编程有什么好处"><a href="#generator-的特性对异步编程有什么好处" class="headerlink" title="generator 的特性对异步编程有什么好处"></a>generator 的特性对异步编程有什么好处</h2><p>这里的重点是generator 函数可以 yield promises：</p>
+<p>generator 函数可以 yield 一个 promise （一个异步任务），它的遍历器（iterator）可以被控制停顿执行，直到 这个promise 被 resolve (or reject)；然后拿着 被resolved (or rejected) 值继续执行。</p>
+<p>所以这种模式，可以帮助我们用 遍历器（iterator） 和 promises 去实现下面的场景：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">init</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> res1 = <span class="keyword">yield</span> doTask1();</span><br><span class="line">    <span class="built_in">console</span>.log(res1);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> res2 = <span class="keyword">yield</span> doTask2(res1);</span><br><span class="line">    <span class="built_in">console</span>.log(res2);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> res3 = <span class="keyword">yield</span> doTask3(res2);</span><br><span class="line">    <span class="built_in">console</span>.log(res3);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> res3;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看看上面的结构是不是很像开篇的 async 函数的版本呀。</p>
+<p>但是我们需要去执行的是函数体啊；那我们需要一个wrapper函数，当一个 promise 被 yielded， 它能控制遍历器去停顿，一旦 promise 被 resolves (or rejects) 可以继续执行。</p>
+<p>下面是这个wrapper函数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">runner</span>(<span class="params">genFn</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> itr = genFn();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">run</span>(<span class="params">arg</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">const</span> result = itr.next(arg);</span><br><span class="line">        <span class="keyword">if</span> (result.done) &#123;</span><br><span class="line">            <span class="keyword">return</span> result.value;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">Promise</span>.resove(result.value).then(run);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    run();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在就可以把这两个函数结合起来啦：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">init</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> res1 = <span class="keyword">yield</span> doTask1();</span><br><span class="line">    <span class="built_in">console</span>.log(res1);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> res2 = <span class="keyword">yield</span> doTask2(res1);</span><br><span class="line">    <span class="built_in">console</span>.log(res2);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> res3 = <span class="keyword">yield</span> doTask3(res2);</span><br><span class="line">    <span class="built_in">console</span>.log(res3);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> res3;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">runner(init);</span><br></pre></td></tr></table></figure>
+<p>嗯嗯，就这么多了，我们用 runner 函数和 generator 函数实现了 async 函数的功能了，开心 ：）</p>
+
+        
+        <div id="comment-container">
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = ""
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</html>
