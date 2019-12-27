@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        用 React Hook 配合 Provider 和 Consumer 模拟 Redux 的功能 - undefined
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i>  </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="https://dn-coding-net-production-static.qbox.me/static/7a51352fa766f4176d7c4543339e0e98.png" />
+        </div>
+        <div class="name">
+            <i>Edward xu</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i>  </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        用 React Hook 配合 Provider 和 Consumer 模拟 Redux 的功能
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2019-12-27 15:13:42</span></span>
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <p>自从React正式暴露 context给开发者后一直想实现下 Redux的功能，最近又在研究 React Hook， 发现 useReducer 配合 Provider和Consumer 很容易就实现了 Redux的功能。</p>
+<p>其中 Connect 组件是用函数组件实现的，重高阶组件换成高阶函数而已。具体实现看注释。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br></pre></td><td class="code"><pre><span class="line">// 全局 context 对象</span><br><span class="line">const Context = React.createContext();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 初始的state</span><br><span class="line">let initialState = &#123;</span><br><span class="line">  count: 0,</span><br><span class="line">  color: &apos;#DC0073&apos;,</span><br><span class="line">  name: &apos;edward&apos;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 应用的reducer</span><br><span class="line">function Reducer(state = initialState, action) &#123;</span><br><span class="line">  if (action.type === &apos;increaseCount&apos;) return &#123; ...state, count: state.count + 1 &#125;</span><br><span class="line">  if (action.type === &apos;toggleColor&apos;) return &#123; ...state, color: state.color === &apos;#DC0073&apos; ? &apos;#00A1E4&apos; : &apos;#DC0073&apos; &#125;</span><br><span class="line">  if (action.type === &apos;CHANGEMODEL&apos;) return &#123; ...state, ...action.payload &#125;</span><br><span class="line">  return state</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Provider 将 全局的 state 和 dispatch 放入 Context.Provider中</span><br><span class="line">function Provider(&#123; children, store = &#123;&#125;&#125;) &#123;</span><br><span class="line">  const [state, dispatch] = useReducer(Reducer, store)</span><br><span class="line">  console.log(&apos;Provider&apos;, state);</span><br><span class="line">  const value = &#123;</span><br><span class="line">    state,</span><br><span class="line">    dispatch</span><br><span class="line">  &#125;</span><br><span class="line">  return &lt;Context.Provider value=&#123;value&#125;&gt;&#123;children&#125;&lt;/Context.Provider&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 发出事件的函数</span><br><span class="line">const actions = &#123;</span><br><span class="line">  changeModel(dispatch) &#123;</span><br><span class="line">      return (params) =&gt; &#123;</span><br><span class="line">        console.log(&apos;changeModel&apos;, params);</span><br><span class="line">        console.log(&apos;dispatch&apos;, dispatch);</span><br><span class="line">        dispatch(&#123;</span><br><span class="line">          type: &apos;CHANGEMODEL&apos;,</span><br><span class="line">          payload: &#123;</span><br><span class="line">              ...params</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  increaseCount(dispatch) &#123;</span><br><span class="line">    return () =&gt; &#123;</span><br><span class="line">      dispatch(&#123;</span><br><span class="line">        type: &apos;increaseCount&apos;,</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  toggleColor(dispatch) &#123;</span><br><span class="line">    return () =&gt; &#123;</span><br><span class="line">      dispatch(&#123;</span><br><span class="line">        type: &apos;toggleColor&apos;</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 1. 将 Context.Consumer 里拿出来的数据放到组件props中</span><br><span class="line">// 2. 将actions和Context.Consumer里拿出的dispatch关联，并放入组件props中</span><br><span class="line">function Connect(cb, actions) &#123;</span><br><span class="line">    return (Component) =&gt; &#123;</span><br><span class="line">      return (props) =&gt; &#123;</span><br><span class="line">        return (</span><br><span class="line">          &lt;Context.Consumer&gt;</span><br><span class="line">            &#123;(value) =&gt; &#123;</span><br><span class="line">                let Mapedprops = cb &amp;&amp; cb(value.state);</span><br><span class="line">                // 这里需要把全局的传进的prop和组件传入的prop合并下</span><br><span class="line">                let finalProps = &#123;</span><br><span class="line">                  ...props,</span><br><span class="line">                  ...Mapedprops</span><br><span class="line">                &#125;;</span><br><span class="line"></span><br><span class="line">                let actions_obj = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">                for (let f in actions) &#123;</span><br><span class="line">                  actions_obj[f] = actions[f](value.dispatch);</span><br><span class="line">                &#125;</span><br><span class="line">                // console.log(&apos;actions_obj&apos;, actions_obj);</span><br><span class="line"></span><br><span class="line">                // console.log(&apos;Connect----&gt;&apos;, value, actions);</span><br><span class="line">                return &lt;Component &#123;...finalProps&#125; &#123; ...actions_obj &#125;/&gt;;</span><br><span class="line">              &#125;</span><br><span class="line">            &#125;</span><br><span class="line">          &lt;/Context.Consumer&gt;</span><br><span class="line">        )</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 页面组件</span><br><span class="line">class App extends Component &#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    // 可以在页面的props拿到 store和 Actions 里的函数发起事件了</span><br><span class="line">    let &#123; store, changeModel, increaseCount, toggleColor &#125; = this.props;</span><br><span class="line">    let &#123; name, color, count &#125; = store;</span><br><span class="line">    console.log(&apos;this.props&apos;, this.props);</span><br><span class="line">    return (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;span style=&#123;&#123; color &#125;&#125;&gt;Current count is: &#123;count&#125;&lt;/span&gt;</span><br><span class="line">        &lt;div&gt;&#123;name&#125;&lt;/div&gt;</span><br><span class="line">        &lt;button onClick=&#123;() =&gt; &#123;</span><br><span class="line">          changeModel(&#123;name: &apos;elen&apos;&#125;)</span><br><span class="line">        &#125;&#125;&gt;change&lt;/button&gt;</span><br><span class="line">        &lt;button onClick=&#123;increaseCount&#125;&gt;Increase count&lt;/button&gt;</span><br><span class="line">        &lt;button</span><br><span class="line">            onClick=&#123;toggleColor&#125;</span><br><span class="line">        &gt;</span><br><span class="line">            Change Color</span><br><span class="line">        &lt;/button&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let Enhanced = Connect(state =&gt; &#123;</span><br><span class="line">  return &#123; store: state &#125;;</span><br><span class="line">&#125;, actions)(App)</span><br><span class="line"></span><br><span class="line">ReactDOM.render(</span><br><span class="line">    &lt;Provider</span><br><span class="line">      store=&#123;initialState&#125;</span><br><span class="line">    &gt;</span><br><span class="line">      &lt;Enhanced /&gt;</span><br><span class="line">    &lt;/Provider&gt;,</span><br><span class="line">    document.getElementById(&apos;app&apos;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure></p>
+<p>每次发起dispatch都会触发状态的改变 Provider 函数会执行，Connect 的组件也会走一遍更新的周期函数, 如果是 Connect 的组件比较多的话，可以用PureComponent 或 shouldComponentUpdate 进行进一步优化比较好。<br>以上就是个简易版的Redux功能，主要帮助我理解状态管理库的实现方式，和优化组件的渲染策略。</p>
+<p>以下面的代码为例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">class Parent extends Component &#123;</span><br><span class="line">    render() &#123;</span><br><span class="line">        let &#123; store,  increaseCount &#125; = this.props;</span><br><span class="line">        let &#123;  count &#125; = store;</span><br><span class="line"></span><br><span class="line">        return (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &lt;EnhancedChild count=&#123;count&#125;&gt;&lt;/EnhancedChild&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Child extends Component &#123;</span><br><span class="line">    render() &#123;</span><br><span class="line">        let &#123; store,  increaseCount &#125; = this.props;</span><br><span class="line">        let &#123; count &#125; = store;</span><br><span class="line"></span><br><span class="line">        return (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &lt;div&gt;&#123;count&#125;&lt;/div&gt;</span><br><span class="line">                &lt;button onClick=&#123;increaseCount&#125;&gt;Increase count&lt;/button&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">let EnhancedParent = Connect(state =&gt; &#123;</span><br><span class="line">  return &#123; store: state &#125;;</span><br><span class="line">&#125;, actions)(Parent)</span><br><span class="line"></span><br><span class="line">let EnhancedChild = Connect(state =&gt; &#123;</span><br><span class="line">  return &#123; store: state &#125;;</span><br><span class="line">&#125;, actions)(Child)</span><br></pre></td></tr></table></figure>
+<p>总结渲染逻辑：</p>
+<ul>
+<li>全局状态更新时先触发 <code>Parent</code> 组件的 render 然后才是 <code>Child</code> 的 render，这样就确保 <code>Child</code> render 时是拿到最新的 props； 故只渲染一次Child；</li>
+<li>像Child 这样被全局 store Connect 的复杂组件, 每次store 变化都会 render。如果只依赖固定的字段跟新的话，可以优化下render策略去提升性能。</li>
+</ul>
+<p>优化如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">class Child extends React.Component &#123;</span><br><span class="line">  shouldComponentUpdate(nextProps, nextState) &#123;</span><br><span class="line">    if(nextProps.store.color != this.props.store.color) &#123;</span><br><span class="line">      return true;</span><br><span class="line">    &#125;</span><br><span class="line">    return false;</span><br><span class="line">  &#125;</span><br><span class="line">  render() &#123;</span><br><span class="line">      let &#123; increaseCount &#125; = this.props;</span><br><span class="line">      let &#123; color &#125; = store;</span><br><span class="line"></span><br><span class="line">      console.log(&apos;Child render&apos;, this.props);</span><br><span class="line"></span><br><span class="line">      return (</span><br><span class="line">          &lt;div&gt;</span><br><span class="line">              &lt;div&gt;color: &#123;color&#125;&lt;/div&gt;</span><br><span class="line">              &lt;button onClick=&#123;increaseCount&#125;&gt;Increase count&lt;/button&gt;</span><br><span class="line">          &lt;/div&gt;</span><br><span class="line">      )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        
+        <div id="comment-container">
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = ""
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</html>
