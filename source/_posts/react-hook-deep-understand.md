@@ -292,3 +292,261 @@ function Counter() {
   )
 }
 ```
+
+## 在 React Hook 发起请求和错误处理
+
+```
+function App() {
+  const [data, setData] = useState({ hits: [] });
+  const [query, setQuery] = useState('redux');
+  const [url, setUrl] = useState(
+    'https://hn.algolia.com/api/v1/search?query=redux',
+  );
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+
+
+  useEffect(() => {
+    console.log('App useEffect');
+    async function fetchData() {
+      setIsLoading(true);
+      setIsError(false);
+
+      try {
+        const result = await axios(url);
+        setData(result.data);
+      } catch (error) {
+        setIsError(true);
+      }
+      setIsLoading(false);
+    }
+    fetchData();
+  }, [url]);
+
+  console.log('App render', url, isLoading, isError);
+  return (
+    <Fragment>
+      <form
+        onSubmit={(event) => {
+          setUrl(`http://hn.algolia.com/api/v1/search?query=${query}`);
+          event.preventDefault();
+        }}
+      >
+        <input
+          type="text"
+          value={query}
+          onChange={event => setQuery(event.target.value)}
+        />
+        <button type="submit">Search</button>
+      </form>
+
+      {isError && <div>Something went wrong ...</div>}
+
+      {isLoading ? (
+        <div>Loading ...</div>
+      ) : (
+        <ul>
+          {data.hits.map(item => (
+            <li key={item.objectID}>
+              <a href={item.url}>{item.title}</a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </Fragment>
+
+  );
+}
+```
+
+## Custom fetch Hook
+
+```
+const useApi = (initialUrl, initialData) => {
+  const [data, setData] = useState(initialData);
+  const [url, setUrl] = useState(initialUrl);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsError(false);
+      setIsLoading(true);
+      try {
+        const result = await axios(url);
+        setData(result.data);
+      } catch (error) {
+        setIsError(true);
+      }
+      setIsLoading(false);
+    };
+    fetchData();
+  }, [url]);
+  return [{ data, isLoading, isError }, setUrl];
+}
+
+function App() {
+  const [query, setQuery] = useState('redux');
+  const [{ data, isLoading, isError }, doFetch] = useApi(
+    'https://hn.algolia.com/api/v1/search?query=redux',
+    { hits: [] }
+  );
+
+  console.log('App render', isLoading, isError);
+  return (
+    <Fragment>
+      <form
+        onSubmit={(event) => {
+          doFetch(`http://hn.algolia.com/api/v1/search?query=${query}`);
+          event.preventDefault();
+        }}
+      >
+        <input
+          type="text"
+          value={query}
+          onChange={event => setQuery(event.target.value)}
+        />
+        <button type="submit">Search</button>
+      </form>
+
+      {isError && <div>Something went wrong ...</div>}
+      {isLoading ? (
+        <div>Loading ...</div>
+      ) : (
+        <ul>
+          {data.hits.map(item => (
+            <li key={item.objectID}>
+              <a href={item.url}>{item.title}</a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </Fragment>
+
+  );
+}
+```
+
+## Custom fetch Hook using useReducer
+
+```
+const dataFetchReducer = (state, action) => {
+  switch (action.type) {
+    case 'FETCH_INIT':
+      return {
+        ...state,
+        isLoading: true,
+        isError: false
+      };
+    case 'FETCH_SUCCESS':
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        data: action.payload,
+      };
+    case 'FETCH_FAILURE':
+      return {
+        ...state,
+        isLoading: false,
+        isError: true
+      };
+    default:
+      throw new Error();
+  }
+};
+const useApi = (initialUrl, initialData) => {
+  const [url, setUrl] = useState(initialUrl);
+
+  const [state, dispatch] = useReducer(dataFetchReducer, {
+    isLoading: false,
+    isError: false,
+    data: initialData,
+  });
+
+  useEffect(() => {
+    // 这个参数的作用是切换输入框内容时，如果第一个请求还没回来，
+    // 就取消掉第一个接口返回数据时的 dispatch
+    let didCancel = false;
+
+    const fetchData = async () => {
+      dispatch({ type: 'FETCH_INIT' });
+      try {
+        const result = await axios(url);
+        if (!didCancel) {
+          dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
+        }
+      } catch (error) {
+        if (!didCancel) {
+          dispatch({ type: 'FETCH_FAILURE' });
+        }
+      }
+    };
+    fetchData();
+
+    return () => {
+      didCancel = true;
+    };
+  }, [url]);
+  return [state, setUrl];
+}
+```
+
+
+
+## 使用React Hook 的问题
+
+* 当请求的数据，依赖 url 变化时
+
+```
+function App() {
+  const [data, setData] = useState({ hits: [] });
+  const [query, setQuery] = useState('redux');
+  const [url, setUrl] = useState(
+    'https://hn.algolia.com/api/v1/search?query=redux',
+  );
+
+  const [isLoading, setIsLoading] = useState(false);
+
+
+  useEffect(() => {
+    console.log('App useEffect');
+    async function fetchData() {
+      setIsLoading(true);
+      const result = await axios(url);
+      setData(result.data);
+      setIsLoading(false);
+    }
+    fetchData();
+  }, [url]);
+
+  console.log('App render', data);
+  return (
+    <Fragment>
+      <input
+        type="text"
+        value={query}
+        onChange={event => setQuery(event.target.value)}
+      />
+
+      <button type="button" onClick={() => setUrl(`http://hn.algolia.com/api/v1/search?query=${query}`)}>
+        Search
+      </button>
+
+      {isLoading ? (
+        <div>Loading ...</div>
+      ) : (
+        <ul>
+          {data.hits.map(item => (
+            <li key={item.objectID}>
+              <a href={item.url}>{item.title}</a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </Fragment>
+
+  );
+}
+```
+
+上面的代码url不改变点击按钮是不会发起请求的，根据你的业务需求，这可能是一个优化的feature 或者一个 bug。
