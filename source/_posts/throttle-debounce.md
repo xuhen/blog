@@ -29,6 +29,12 @@ function testFn(e) {
 }
 
 window.onresize = throttle(1000, false, testFn);
+
+// 下面代码可以取消节流
+const throttled = throttle(300, () => {
+	// Throttled function
+});
+throttled.cancel();
 ```
 
 ## debounce
