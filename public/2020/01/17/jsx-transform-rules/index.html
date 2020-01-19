@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        babel转换jsx的5条规则 - undefined
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i>  </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="https://dn-coding-net-production-static.qbox.me/static/7a51352fa766f4176d7c4543339e0e98.png" />
+        </div>
+        <div class="name">
+            <i>Edward xu</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-tags-变为-React-createElement"><span class="toc-text">1. tags 变为 React.createElement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-attributes-会变为-props"><span class="toc-text">2. attributes 会变为 props</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-…object-表达式变为-Object-assign"><span class="toc-text">3. {…object} 表达式变为 Object.assign</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-tag-子元素变为-props-children"><span class="toc-text">4. tag 子元素变为 props.children</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-用-表达式插入-children"><span class="toc-text">5. 用 {} 表达式插入 children</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#链接部分"><span class="toc-text">链接部分</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i>  </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        babel转换jsx的5条规则
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2020-01-17 16:07:16</span></span>
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <blockquote>
+<p>编者按：</p>
+<p>   曾几何时，感觉JSX这货高深莫测，用了React.createElement 和 createReactClass 写了段时间的代码，才发现原来babel是要把那些fancy的语法增强都一一转译到这些基础api</p>
+<p>   不只是JSX这样的奇怪语法，而且像es6的class语法糖也被转译成es5函数式继承语法，前端发明了这么多工具，只不过是为了提高开发效率和易于维护而已罢（一点拙见）</p>
+</blockquote>
+<h2 id="1-tags-变为-React-createElement"><a href="#1-tags-变为-React-createElement" class="headerlink" title="1. tags 变为 React.createElement"></a>1. tags 变为 React.createElement</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">DOM 元素用 &lt;lowercase /&gt; 标签</span><br><span class="line">&lt;div /&gt;  -----&gt; React.createElement(&apos;div&apos;, null)</span><br><span class="line"></span><br><span class="line">自定义元素用 &lt;Capitalized /&gt; 标签</span><br><span class="line">&lt;Modal /&gt; -----&gt; React.createElement(Modal, null)</span><br></pre></td></tr></table></figure>
+<h2 id="2-attributes-会变为-props"><a href="#2-attributes-会变为-props" class="headerlink" title="2. attributes 会变为 props"></a>2. attributes 会变为 props</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">当props是string类型时，用&quot;&quot;符号</span><br><span class="line"></span><br><span class="line">&lt;Modal title=&apos;edit&apos; /&gt; -----&gt; React.createElement(Modal, &#123; title: &quot;edit&quot; &#125;);</span><br><span class="line"></span><br><span class="line">当props为字面量或变量时，用&#123;&#125;符号</span><br><span class="line"></span><br><span class="line">&lt;Modal</span><br><span class="line">    title=&#123;`edit$&#123;name&#125;`&#125;</span><br><span class="line">    onClick=&#123;this.click&#125;/&gt;</span><br><span class="line"></span><br><span class="line">    |</span><br><span class="line">    |</span><br><span class="line">    |</span><br><span class="line">   \|/</span><br><span class="line"></span><br><span class="line">React.createElement(Modal, &#123;</span><br><span class="line">    title: &quot;edit&quot;.concat(name),</span><br><span class="line">    onClick: this.click</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="3-…object-表达式变为-Object-assign"><a href="#3-…object-表达式变为-Object-assign" class="headerlink" title="3. {…object} 表达式变为 Object.assign"></a>3. {…object} 表达式变为 Object.assign</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;div className=&quot;default&quot; &#123;...this.props&#125; /&gt;</span><br><span class="line"></span><br><span class="line">            |</span><br><span class="line">            |</span><br><span class="line">            |</span><br><span class="line">           \|/</span><br><span class="line"></span><br><span class="line">React.createElement(&quot;div&quot;, Object.assign(&#123;</span><br><span class="line">  className: &quot;default&quot;</span><br><span class="line">&#125;, this.props));</span><br></pre></td></tr></table></figure>
+<h2 id="4-tag-子元素变为-props-children"><a href="#4-tag-子元素变为-props-children" class="headerlink" title="4. tag 子元素变为 props.children"></a>4. tag 子元素变为 props.children</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">子元素为普通文字</span><br><span class="line"></span><br><span class="line">&lt;div&gt;hello world&lt;/div&gt;   -----&gt;  React.createElement(&quot;div&quot;, null, &quot;hello world&quot;)</span><br><span class="line"></span><br><span class="line">子元素为DOM元素</span><br><span class="line"></span><br><span class="line">&lt;Modal&gt;</span><br><span class="line">  &lt;h1&gt;hello world&lt;/h1&gt;</span><br><span class="line">&lt;/Modal&gt;</span><br><span class="line"></span><br><span class="line">        |</span><br><span class="line">        |</span><br><span class="line">        |</span><br><span class="line">       \|/</span><br><span class="line"></span><br><span class="line">React.createElement(Modal, null,</span><br><span class="line">    React.createElement(&quot;h1&quot;, null,</span><br><span class="line">        &quot;hello world&quot;</span><br><span class="line">    )</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">子元素既有普通文字又有DOM元素</span><br><span class="line"></span><br><span class="line">&lt;div&gt;</span><br><span class="line">  Nice to meet you &lt;em&gt;Edward&lt;/em&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">        |</span><br><span class="line">        |</span><br><span class="line">       \|/</span><br><span class="line"></span><br><span class="line">React.createElement(&quot;div&quot;, null,</span><br><span class="line">    &quot;Nice to meet you &quot;,</span><br><span class="line">    React.createElement(&quot;em&quot;, null, &quot;Edward&quot;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h2 id="5-用-表达式插入-children"><a href="#5-用-表达式插入-children" class="headerlink" title="5. 用 {} 表达式插入 children"></a>5. 用 {} 表达式插入 children</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">插入的是普通文字变量</span><br><span class="line"></span><br><span class="line">&lt;div&gt;</span><br><span class="line">  Nice to meet you &#123;this.props.name&#125;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">        |</span><br><span class="line">        |</span><br><span class="line">       \|/</span><br><span class="line"></span><br><span class="line">React.createElement(&quot;div&quot;, null,</span><br><span class="line">    &quot;Nice to meet you &quot;,</span><br><span class="line">    this.props.name</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">插入数组</span><br><span class="line"></span><br><span class="line">&lt;ul&gt;</span><br><span class="line">  &#123;</span><br><span class="line">    steps.map((step) =&gt; &#123;</span><br><span class="line">      return &lt;li key=&#123;step.id&#125;&gt;&#123;step.content&#125;&lt;/li&gt;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/ul&gt;</span><br><span class="line"></span><br><span class="line">        |</span><br><span class="line">        |</span><br><span class="line">       \|/</span><br><span class="line"></span><br><span class="line">React.createElement(&quot;ul&quot;, null, steps.map(function (step) &#123;</span><br><span class="line">  return React.createElement(&quot;li&quot;, &#123;</span><br><span class="line">    key: step.id</span><br><span class="line">  &#125;, step.content);</span><br><span class="line">&#125;));</span><br></pre></td></tr></table></figure>
+<p>结束： 转译的产物可能根据当前的babel版本和preset版本有所差别</p>
+<p>可以拿着源码到babel官网看下转译产物</p>
+<h2 id="链接部分"><a href="#链接部分" class="headerlink" title="链接部分"></a>链接部分</h2><p><a href="https://babeljs.io/" target="_blank" rel="noopener">babeljs官网</a><br><a href="http://jamesknelson.com/learn-raw-react-no-jsx-flux-es6-webpack/" target="_blank" rel="noopener">Learn Raw React 系列</a></p>
+
+        
+        <div id="comment-container">
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = ""
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        react 使用的 list 最小移动算法 - undefined
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i>  </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="https://dn-coding-net-production-static.qbox.me/static/7a51352fa766f4176d7c4543339e0e98.png" />
+        </div>
+        <div class="name">
+            <i>Edward xu</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#带key值的两个数组操作"><span class="toc-text">带key值的两个数组操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法实现"><span class="toc-text">算法实现</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i>  </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        react 使用的 list 最小移动算法
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2020-01-17 14:07:17</span></span>
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <p>当我们使用React时，官方都推荐我们给list数据加上key, 这篇文章就是解密为啥加上key 后的列表移动就是最小的了。</p>
+<p>下面我们从宏观上看下这个算法的运行规则。</p>
+<h2 id="带key值的两个数组操作"><a href="#带key值的两个数组操作" class="headerlink" title="带key值的两个数组操作"></a>带key值的两个数组操作</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">给定两个数组 oldList 和 newList</span><br><span class="line"></span><br><span class="line">1. 遍历oldList生成新的数组 simulateList 并判断当前元素是否在newList中，如果不在则向 simulateList 数组加入 null</span><br><span class="line"></span><br><span class="line">2. 遍历 simulateList 数组，将元素为null的值标记为 remove 并将其从simulateList删除</span><br><span class="line"></span><br><span class="line">3. 遍历 newList 数组，j = i = 0， i 指向newList的索引， j指向simulateList的索引；</span><br><span class="line">    3-1）判断j的索引是否有值，如果为undefind直接将当前的 item 标记为 insert</span><br><span class="line">    3-2）判断当前i,j的索引值是否相等如果相等就 j++, i++</span><br><span class="line">    3-3) 如果i, j的索引值不相等就判断当前item在oldList存在吗，如果不存在就直接将当前item标记为insert</span><br><span class="line">    3-4) 如果当前item在oldList存在，就看当前j+1索引位置的条目和当前i对应的条目相等吗，如果相等，</span><br><span class="line">    就将当前item标记为remove并将当前j对应的条目从simulateList数组删除，然后j++。</span><br><span class="line">    3-5) 如果j+1索引位置的条目和当前i对应的条目不相等，就将i对应的条目标记为insert</span><br><span class="line"></span><br><span class="line">4. 最后看j++对应的值是否比simulateList中的个数小，如果是就将j之后的条目标记为remove</span><br></pre></td></tr></table></figure>
+<p>其中比较难理解的步骤是3-4)，其余部分都比较好理解。</p>
+<h2 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Diff two list in O(N).</span><br><span class="line"> * @param &#123;Array&#125; oldList - Original List</span><br><span class="line"> * @param &#123;Array&#125; newList - List After certain insertions, removes, or moves</span><br><span class="line"> * @return &#123;Object&#125; - &#123;moves: &lt;Array&gt;&#125;</span><br><span class="line"> *                  - moves is a list of actions that telling how to remove and insert</span><br><span class="line"> */</span><br><span class="line">function diff (oldList, newList, key) &#123;</span><br><span class="line">  var oldMap = makeKeyIndexAndFree(oldList, key)</span><br><span class="line">  var newMap = makeKeyIndexAndFree(newList, key)</span><br><span class="line">  var newFree = newMap.free</span><br><span class="line">  var oldKeyIndex = oldMap.keyIndex</span><br><span class="line">  var newKeyIndex = newMap.keyIndex</span><br><span class="line">  var moves = []</span><br><span class="line"></span><br><span class="line">  // a simulate list to manipulate</span><br><span class="line">  var children = []</span><br><span class="line">  var i = 0</span><br><span class="line">  var item</span><br><span class="line">  var itemKey</span><br><span class="line">  var freeIndex = 0</span><br><span class="line"></span><br><span class="line">  // first pass to check item in old list: if it&apos;s removed or not</span><br><span class="line">  while (i &lt; oldList.length) &#123;</span><br><span class="line">    item = oldList[i]</span><br><span class="line">    itemKey = getItemKey(item, key)</span><br><span class="line">    if (itemKey) &#123;</span><br><span class="line">      if (!newKeyIndex.hasOwnProperty(itemKey)) &#123;</span><br><span class="line">        children.push(null)</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        var newItemIndex = newKeyIndex[itemKey]</span><br><span class="line">        console.log(&apos;newItemIndex&apos;, itemKey, newItemIndex);</span><br><span class="line">        children.push(newList[newItemIndex])</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      var freeItem = newFree[freeIndex++]</span><br><span class="line">      children.push(freeItem || null)</span><br><span class="line">    &#125;</span><br><span class="line">    i++</span><br><span class="line">  &#125;</span><br><span class="line">  var simulateList = children.slice(0)</span><br><span class="line"></span><br><span class="line">  // remove items no longer exist</span><br><span class="line">  i = 0</span><br><span class="line">  while (i &lt; simulateList.length) &#123;</span><br><span class="line">    if (simulateList[i] === null) &#123;</span><br><span class="line">      remove(i)</span><br><span class="line">      removeSimulate(i)</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      i++</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // i is cursor pointing to a item in new list</span><br><span class="line">  // j is cursor pointing to a item in simulateList</span><br><span class="line">  var j = i = 0</span><br><span class="line">  while (i &lt; newList.length) &#123;</span><br><span class="line">    item = newList[i]</span><br><span class="line">    itemKey = getItemKey(item, key)</span><br><span class="line">    var simulateItem = simulateList[j]</span><br><span class="line">    var simulateItemKey = getItemKey(simulateItem, key)</span><br><span class="line"></span><br><span class="line">    if (simulateItem) &#123;</span><br><span class="line">      if (itemKey === simulateItemKey) &#123;</span><br><span class="line">        j++</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        // new item, just inesrt it</span><br><span class="line">        if (!oldKeyIndex.hasOwnProperty(itemKey)) &#123;</span><br><span class="line">          insert(i, item)</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">          // if remove current simulateItem make item in right place</span><br><span class="line">          // then just remove it</span><br><span class="line">          var nextItemKey = getItemKey(simulateList[j + 1], key)</span><br><span class="line">          if (nextItemKey === itemKey) &#123;</span><br><span class="line">            remove(i)</span><br><span class="line">            removeSimulate(j)</span><br><span class="line">            j++ // after removing, current j is right, just jump to next one</span><br><span class="line">          &#125; else &#123;</span><br><span class="line">            // else insert item</span><br><span class="line">            insert(i, item)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      insert(i, item)</span><br><span class="line">    &#125;</span><br><span class="line">    i++</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  //if j is not remove to the end, remove all the rest item</span><br><span class="line">  var k = simulateList.length - j</span><br><span class="line">  while (j++ &lt; simulateList.length) &#123;</span><br><span class="line">    k--</span><br><span class="line">    remove(k + i)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  function remove (index) &#123;</span><br><span class="line">    var move = &#123;index: index, type: 0&#125;</span><br><span class="line">    moves.push(move)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  function insert (index, item) &#123;</span><br><span class="line">    var move = &#123;index: index, item: item, type: 1&#125;</span><br><span class="line">    moves.push(move)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  function removeSimulate (index) &#123;</span><br><span class="line">    simulateList.splice(index, 1)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return &#123;</span><br><span class="line">    moves: moves,</span><br><span class="line">    children: children</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Convert list to key-item keyIndex object.</span><br><span class="line"> * @param &#123;Array&#125; list</span><br><span class="line"> * @param &#123;String|Function&#125; key</span><br><span class="line"> */</span><br><span class="line">function makeKeyIndexAndFree (list, key) &#123;</span><br><span class="line">  var keyIndex = &#123;&#125;</span><br><span class="line">  var free = []</span><br><span class="line">  for (var i = 0, len = list.length; i &lt; len; i++) &#123;</span><br><span class="line">    var item = list[i]</span><br><span class="line">    var itemKey = getItemKey(item, key)</span><br><span class="line">    if (itemKey) &#123;</span><br><span class="line">      keyIndex[itemKey] = i</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      free.push(item)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  return &#123;</span><br><span class="line">    keyIndex: keyIndex,</span><br><span class="line">    free: free</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function getItemKey (item, key) &#123;</span><br><span class="line">  if (!item || !key) return void 666</span><br><span class="line">  return typeof key === &apos;string&apos;</span><br><span class="line">    ? item[key]</span><br><span class="line">    : key(item)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// example 1 带 key 的list</span><br><span class="line">var oldList = [&#123;id: &quot;a&quot;&#125;, &#123;id: &quot;b&quot;&#125;, &#123;id: &quot;c&quot;&#125;, &#123;id: &quot;d&quot;&#125;, &#123;id: &quot;e&quot;&#125;]</span><br><span class="line">var newList = [&#123;id: &quot;c&quot;&#125;, &#123;id: &quot;a&quot;&#125;, &#123;id: &quot;b&quot;&#125;, &#123;id: &quot;e&quot;&#125;, &#123;id: &quot;f&quot;&#125;]</span><br><span class="line">var moves = diff(oldList, newList, &quot;id&quot;)</span><br><span class="line"></span><br><span class="line">moves.moves.forEach(function(move) &#123;</span><br><span class="line">  if (move.type === 0) &#123;</span><br><span class="line">    oldList.splice(move.index, 1) // type 0 is removing</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    oldList.splice(move.index, 0, move.item) // type 1 is inserting</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">console.log(oldList)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// example 2 没有带key的list</span><br><span class="line">var oldList = [&#123;id: &quot;a&quot;&#125;, &#123;id: &quot;b&quot;&#125;, &#123;id: &quot;c&quot;&#125;, &#123;id: &quot;d&quot;&#125;, &#123;id: &quot;e&quot;&#125;]</span><br><span class="line">var newList = [&#123;id: &quot;c&quot;&#125;, &#123;id: &quot;z&quot;&#125;, &#123;id: &quot;a&quot;&#125;, &#123;id: &quot;b&quot;&#125;, &#123;id: &quot;e&quot;&#125;, &#123;id: &quot;f&quot;&#125;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">var moves = diff(oldList, newList, function (item) &#123; return item &#125;)</span><br><span class="line">moves.moves.forEach(function(move) &#123;</span><br><span class="line">  if (move.type === 0) &#123;</span><br><span class="line">    oldList.splice(move.index, 1) // type 0 is removing</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    oldList.splice(move.index, 0, move.item) // type 1 is inserting</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">console.log(oldList)</span><br></pre></td></tr></table></figure>
+        
+        <div id="comment-container">
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = ""
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</html>

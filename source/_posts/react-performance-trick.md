@@ -425,8 +425,10 @@ class MyWidget extends Component {
 ## 下面部分为React里的一些技术细节
 
 ```
-React 如何区分Class组件和Function组件?
+Q. React 如何区分Class组件和Function组件?
 
+
+A.
 // Inside React
 class Component {}
 Component.prototype.isReactComponent = {};
@@ -434,5 +436,42 @@ Component.prototype.isReactComponent = {};
 // We can check it like this
 class Greeting extends Component {}
 console.log(Greeting.prototype.isReactComponent); // ✅ Yes
+
+Q. 为啥React Elements会有$$typeof属性？
+
+A.
+主要是服务端的安全问题，如果服务端有个漏洞，让用户存任意的JSON对象，而客户端期望的是个string类型变量，就会有问题
+
+let expectedTextButGotJSON = {
+  type: 'div',
+  props: {
+    dangerouslySetInnerHTML: {
+      __html: '/* put your exploit here */'
+    },
+  },
+  // ...
+};
+let message = { text: expectedTextButGotJSON };
+
+// Dangerous in React 0.13
+<p>
+  {message.text}
+</p>
+
+如果加上$$typeof后变成
+
+{
+  type: 'marquee',
+  props: {
+    bgcolor: '#ffa7c4',
+    children: 'hi',
+  },
+  key: null,
+  ref: null,
+  $$typeof: Symbol.for('react.element'),
+}
+
+原理是我们不能把Symbol 类型的数据放到自己定义的JSON上，因此即使服务器有安全漏洞返回JSON，
+React也会检查返回的对象上的$$typeof属性，如果缺失就不会解析，并抛错。
 
 ```
