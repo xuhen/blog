@@ -418,3 +418,21 @@ class MyWidget extends Component {
 ```
 
 如上state上没有hello，故MyWidget内会报错，会被ErrorBoundary捕获并提供回退 UI。
+
+
+
+
+## 下面部分为React里的一些技术细节
+
+```
+React 如何区分Class组件和Function组件?
+
+// Inside React
+class Component {}
+Component.prototype.isReactComponent = {};
+
+// We can check it like this
+class Greeting extends Component {}
+console.log(Greeting.prototype.isReactComponent); // ✅ Yes
+
+```
