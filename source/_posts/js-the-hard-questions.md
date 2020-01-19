@@ -213,3 +213,47 @@ UI 更新会被保存在一个队列中等到 JavaScript 引擎线程空闲时�
 	异步线程就产生状态变更事件放到 JavaScript 引擎的处理队列中等待处理；
 
 ```
+
+## Q. 前端异常捕获都有哪些方式？
+
+```
+A.
+1. 对于一般的同步任务，我们可以使用try...catch
+
+try {
+  undefined.map(v => v);
+} catch(e) {
+  console.log(e); // TypeError: Cannot read property 'map' of undefined
+}
+
+2. 对于setTimeout等异步异常，可以使用window.onerror捕获
+
+setTimeout(() => {
+    undefined.map(v => v);
+}, 1000);
+
+window.onerror = (msg, url, row, col, error) => {
+    console.log({ msg, url, row, col, error });
+};
+
+Note: 此方法不能捕获img和css资源的加载异常，比如404；
+而window.addEventListener('error')方式可以捕获；
+addEventListener不能捕获js的异常。
+
+
+3. 对于未捕获的Promise异常，可以使用window.onunhandledrejection捕获：
+
+window.addEventListener("unhandledrejection", e => {
+    e.preventDefault();
+    console.log(e);
+});
+
+Promise.reject('promiseError');
+
+通过以上的三种捕获方式，我们就可以捕获到我们程序中所有的异常！
+注意，如果你的代码是async/await形式的， 可以通过babel转化为Promise的形式，这样
+window.onunhandledrejection依然可以捕获到相应的异常。
+
+
+```
+
