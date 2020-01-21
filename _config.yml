@@ -3,9 +3,9 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
+title: Edward's blogs
 subtitle:
-description:
+description: This is the blog page of Edward
 keywords:
 author: Edward xu
 language:
@@ -83,5 +83,3 @@ deploy:
   repository:
       coding: git@git.coding.net:Edward_xu/Edward_xu.git
   branch: master
-
-

@@ -2,6 +2,7 @@
 title: 用 React Hook 配合 Provider 和 Consumer 模拟 Redux 的功能
 date: 2019-12-27 15:13:42
 tags:
+  - hook
 ---
 
 自从React正式暴露 context给开发者后一直想实现下 Redux的功能，最近又在研究 React Hook， 发现 useReducer 配合 Provider和Consumer 很容易就实现了 Redux的功能。

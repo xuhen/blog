@@ -2,6 +2,7 @@
 title: 分析 redux and friends 的实现原理
 date: 2020-01-08 17:27:00
 tags:
+  - redux
 ---
 
 由于代码量很大，请看 comments。

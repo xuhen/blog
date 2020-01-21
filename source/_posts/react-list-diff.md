@@ -2,6 +2,7 @@
 title: react 使用的 list 最小移动算法
 date: 2020-01-17 14:07:17
 tags:
+  - react
 ---
 
 当我们使用React时，官方都推荐我们给list数据加上key, 这篇文章就是解密为啥加上key 后的列表移动就是最小的了。

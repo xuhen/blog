@@ -2,6 +2,7 @@
 title: 用 generators 和 promise 模拟 async 的功能
 date: 2019-11-10 16:06:55
 tags:
+    - async
 ---
 
 想象一下，如果我们有一段async 写的函数，我们能用 promises 和 generator 去重写吗？

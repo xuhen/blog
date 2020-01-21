@@ -2,6 +2,7 @@
 title: throttle和debounce函数实现
 date: 2020-01-02 12:10:42
 tags:
+    - util
 ---
 
 ## throttle

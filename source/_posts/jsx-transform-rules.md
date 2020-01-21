@@ -2,6 +2,7 @@
 title: babel转换jsx的5条规则
 date: 2020-01-17 16:07:16
 tags:
+  - JSX
 ---
 
 

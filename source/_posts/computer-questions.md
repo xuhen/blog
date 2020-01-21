@@ -2,6 +2,7 @@
 title: 一些计算机的问题
 date: 2019-12-31 19:40:50
 tags:
+    - computer
 ---
 
 ## 建立 TLS/SSL 的步骤

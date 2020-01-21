@@ -2,6 +2,7 @@
 title: javascript decorators 它们是什么，使用场景
 date: 2018-10-05 21:26:49
 tags:
+  - decorator
 ---
 随着 ES2015+ 的完善，还有编译器的广泛使用，许多人都会在项目代码或教程片段中遇到一些ES语言的新特性。当JS程序员第一次遇到这些特性中的一个（decorators）都会发蒙，这是什么语法呢？
 

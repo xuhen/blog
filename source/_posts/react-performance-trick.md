@@ -2,6 +2,7 @@
 title: React 应用中的优化技巧
 date: 2019-12-23 19:22:59
 tags:
+  - react
 ---
 
 本文提供一些减少 React 重绘的小技巧
