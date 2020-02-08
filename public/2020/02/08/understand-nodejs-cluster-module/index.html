@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="This is the blog page of Edward">
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        理解nodejs中的cluster模块 - undefined
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i>  </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="https://dn-coding-net-production-static.qbox.me/static/7a51352fa766f4176d7c4543339e0e98.png" />
+        </div>
+        <div class="name">
+            <i>Edward xu</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#介绍cluster模块"><span class="toc-text">介绍cluster模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一个简单的示例"><span class="toc-text">一个简单的示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#父子进程间通信"><span class="toc-text">父子进程间通信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结束语"><span class="toc-text">结束语</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i>  </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        理解nodejs中的cluster模块
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2020-02-08 21:38:36</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/tags/#-nodeJS" title="-nodeJS">-nodeJS</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <blockquote>
+<p>NodeJS 的进程是单进程的，这就意味着它没有利用完多核系统的资源。如果你有个8核的CPU然后跑个命令 <code>node app.js</code> 它只会跑在单进程里，浪费了剩下的CPUs。</p>
+<p>幸运的是，NodeJS 提供了 cluster 模块去帮助我们创建程序去利用所有的CUPs。而cluster模块利用所有这些CUP是通过 fork 进程实现的，和Unix 的 fork() 差不多。</p>
+</blockquote>
+<h2 id="介绍cluster模块"><a href="#介绍cluster模块" class="headerlink" title="介绍cluster模块"></a>介绍cluster模块</h2><p>当引入cluster模块后，parent/master进程分出任意多的child/worker进程，父进程和子进程之间是通过IPC (Inter Process Communication)进行通信的。请记住，这些进程之间没有共享内存。</p>
+<p>下面的这段话是从NodeJS官网摘取的一段：</p>
+<ul>
+<li>Node.js 的单实例跑在单线程中的。为了利用多核的系统，开发者就得发起一组Node.js进程去处理负载。</li>
+<li>而这个cluster模块让创建子进程变得相对容易，而且这些子进程可以共用同一个port.</li>
+<li>子进程是用<code>child_process.fork()</code>方法创建的，所以它们能通过IPC同父进程进行通信。而这个 <code>child_process.fork()</code> 方法是 <code>child_process.spawn()</code> 方法的特殊例子，专门用于创建新的 Node.js进程的。就像 <code>child_process.spawn()</code> 一样，通过<code>child_process.fork()</code>方法返回了 <code>ChildProcess</code> 的实例。这个 <code>ChildProcess</code> 有内在的沟通渠道允许消息在父进程和子进程之间来回传递。而这个传递的方法就是 <code>send()</code>。</li>
+<li>我们得记住一点就是，创建的子进程除了和父进程有个IPC进行沟通以外，它们之间其他的部分都是独立的。每个进程有它们自己的内存、自己的V8实例。因为需要花费额外的资源，产生大量子进程是不明智的。</li>
+</ul>
+<h2 id="一个简单的示例"><a href="#一个简单的示例" class="headerlink" title="一个简单的示例"></a>一个简单的示例</h2><p>下面的示例：<br>1、创建了个主进程，并且得到了CPU的个数，然后为每个CPU生成了一个工作进程<br>2、每个工作进程打印了一条日志后退出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">const cluster = require(&apos;cluster&apos;);</span><br><span class="line">const http = require(&apos;http&apos;);</span><br><span class="line">const numCPUs = require(&apos;os&apos;).cpus().length;</span><br><span class="line"></span><br><span class="line">if (cluster.isMaster) &#123;</span><br><span class="line">  masterProcess();</span><br><span class="line">&#125; else &#123;</span><br><span class="line">  childProcess();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function masterProcess() &#123;</span><br><span class="line">  console.log(`Master $&#123;process.pid&#125; is running`);</span><br><span class="line"></span><br><span class="line">  for (let i = 0; i &lt; numCPUs; i++) &#123;</span><br><span class="line">    console.log(`Forking process number $&#123;i&#125;...`);</span><br><span class="line">    cluster.fork();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  process.exit();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function childProcess() &#123;</span><br><span class="line">  console.log(`Worker $&#123;process.pid&#125; started and finished`);</span><br><span class="line"></span><br><span class="line">  process.exit();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下面是执行这个文件的结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ node app.js</span><br><span class="line"></span><br><span class="line">Master 8463 is running</span><br><span class="line">Forking process number 0...</span><br><span class="line">Forking process number 1...</span><br><span class="line">Forking process number 2...</span><br><span class="line">Forking process number 3...</span><br><span class="line">Worker 8464 started and finished</span><br><span class="line">Worker 8465 started and finished</span><br><span class="line">Worker 8467 started and finished</span><br><span class="line">Worker 8466 started and finished</span><br></pre></td></tr></table></figure>
+<h2 id="父子进程间通信"><a href="#父子进程间通信" class="headerlink" title="父子进程间通信"></a>父子进程间通信</h2><p>当子进程创建成功后，这个子进程和父进程之间就创建了IPC信道，允许我们用 <code>send()</code> 方法在它们之间进行通信，这个方法也接收JavaScript的对象作为参数。这里依然要强调下，这个父进程和子进程是不同的进程（而不是不同的线程），因此我们不能共用内存去作为通信的方法。</p>
+<p>从父进程的角度，我们能通过进程引用向子进程发送消息，i.e. <code>someChild.send({ ... })</code>。而站在子进程的角度，我们能用当前的 <code>process</code> i.e. <code>process.send()</code>引用向父进程发送消息。</p>
+<p>基于上面的代码我们加上了子进程向父进程通信的代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function childProcess() &#123;</span><br><span class="line">  console.log(`Worker $&#123;process.pid&#125; started`);</span><br><span class="line"></span><br><span class="line">  process.on(&apos;message&apos;, function(message) &#123;</span><br><span class="line">    console.log(`Worker $&#123;process.pid&#125; recevies message &apos;$&#123;JSON.stringify(message)&#125;&apos;`);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  console.log(`Worker $&#123;process.pid&#125; sends message to master...`);</span><br><span class="line">  process.send(&#123; msg: `Message from worker $&#123;process.pid&#125;` &#125;);</span><br><span class="line"></span><br><span class="line">  console.log(`Worker $&#123;process.pid&#125; finished`);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下面是主进程向子进程发起的通信</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">let workers = [];</span><br><span class="line"></span><br><span class="line">function masterProcess() &#123;</span><br><span class="line">  console.log(`Master $&#123;process.pid&#125; is running`);</span><br><span class="line"></span><br><span class="line">  // Fork workers</span><br><span class="line">  for (let i = 0; i &lt; numCPUs; i++) &#123;</span><br><span class="line">    console.log(`Forking process number $&#123;i&#125;...`);</span><br><span class="line"></span><br><span class="line">    const worker = cluster.fork();</span><br><span class="line">    workers.push(worker);</span><br><span class="line"></span><br><span class="line">    // Listen for messages from worker</span><br><span class="line">    worker.on(&apos;message&apos;, function(message) &#123;</span><br><span class="line">      console.log(`Master $&#123;process.pid&#125; recevies message &apos;$&#123;JSON.stringify(message)&#125;&apos; from worker $&#123;worker.process.pid&#125;`);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // Send message to the workers</span><br><span class="line">  workers.forEach(function(worker) &#123;</span><br><span class="line">    console.log(`Master $&#123;process.pid&#125; sends message to worker $&#123;worker.process.pid&#125;...`);</span><br><span class="line">    worker.send(&#123; msg: `Message from master $&#123;process.pid&#125;` &#125;);</span><br><span class="line">  &#125;, this);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个 <code>masterProcess</code> 函数我们分成两块说明。在第一个循环中，我们生成了CPUs个数的工作进程。<code>cluster.fork()</code> 方法返回了 <code>worker</code> 代表的工作进程，我们把所有的子进程引用放入一个数组，并且注册了消息事件函数用于接收工作进程发来的消息。</p>
+<p>在第二个循环中，我们从主进程分别向每个子进程发送了消息。</p>
+<p>下面是运行的结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$ node app.js</span><br><span class="line"></span><br><span class="line">Master 4045 is running</span><br><span class="line">Forking process number 0...</span><br><span class="line">Forking process number 1...</span><br><span class="line">Master 4045 sends message to worker 4046...</span><br><span class="line">Master 4045 sends message to worker 4047...</span><br><span class="line">Worker 4047 started</span><br><span class="line">Worker 4047 sends message to master...</span><br><span class="line">Worker 4047 finished</span><br><span class="line">Master 4045 recevies message &apos;&#123;&quot;msg&quot;:&quot;Message from worker 4047&quot;&#125;&apos; from worker 4047</span><br><span class="line">Worker 4047 recevies message &apos;&#123;&quot;msg&quot;:&quot;Message from master 4045&quot;&#125;&apos;</span><br><span class="line">Worker 4046 started</span><br><span class="line">Worker 4046 sends message to master...</span><br><span class="line">Worker 4046 finished</span><br><span class="line">Master 4045 recevies message &apos;&#123;&quot;msg&quot;:&quot;Message from worker 4046&quot;&#125;&apos; from worker 4046</span><br><span class="line">Worker 4046 recevies message &apos;&#123;&quot;msg&quot;:&quot;Message from master 4045&quot;&#125;&apos;</span><br></pre></td></tr></table></figure>
+<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>cluster 模块提供了 NodeJS 利用系统所有CPUs的能力。虽然在这里没有看到 <code>Child Process</code> 模块，但它和 <code>cluster</code> 模块是个很好的互补，并且提供了很多工具用于操作进程，比如 <code>start</code>, <code>stop</code> 和 <code>pipe</code> <code>input/out</code>, 等等。</p>
+
+        
+        <div id="comment-container">
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = ""
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</html>

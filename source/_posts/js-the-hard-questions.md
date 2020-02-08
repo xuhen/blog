@@ -132,6 +132,9 @@ Note: display: none，会触发重排；visibility: hidden只会触发重绘。
 
 
 ```
+下面说明影响重排的属性
+![reflow](http://xuheng.inject.top/images/reflow.png)
+
 
 ## Q. 浏览器渲染过程
 ```
@@ -257,3 +260,6 @@ window.onunhandledrejection依然可以捕获到相应的异常。
 
 ```
 
+## Q. requestAnimationFrame 和 requestIdleCallback
+
+![reflow](http://xuheng.inject.top/images/lifeofaframe.png)
