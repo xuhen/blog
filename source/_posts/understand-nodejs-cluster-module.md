@@ -2,7 +2,7 @@
 title: 理解nodejs中的cluster模块
 date: 2020-02-08 21:38:36
 tags:
-    -nodeJS
+    - nodeJS
 ---
 
 > NodeJS 的进程是单进程的，这就意味着它没有利用完多核系统的资源。如果你有个8核的CPU然后跑个命令 `node app.js` 它只会跑在单进程里，浪费了剩下的CPUs。
