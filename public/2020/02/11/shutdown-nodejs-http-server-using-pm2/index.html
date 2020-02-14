@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="This is the blog page of Edward">
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        用PM2优雅的停掉NodeJS服务器 - undefined
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i>  </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="https://dn-coding-net-production-static.qbox.me/static/7a51352fa766f4176d7c4543339e0e98.png" />
+        </div>
+        <div class="name">
+            <i>Edward xu</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#开启一个HTTP服务器"><span class="toc-text">开启一个HTTP服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#怎样停掉一个HTTP服务器？"><span class="toc-text">怎样停掉一个HTTP服务器？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优雅的关闭-重启服务，用或者不用PM2"><span class="toc-text">优雅的关闭/重启服务，用或者不用PM2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结束语"><span class="toc-text">结束语</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i>  </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        用PM2优雅的停掉NodeJS服务器
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2020-02-11 21:32:09</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/tags/#nodeJS" title="nodeJS">nodeJS</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <blockquote>
+<p>现在你创建了个NodeJS的服务器，接收了成百上千的请求，你感到非常满足；正如其他的软件一样，你会发现bug，你会增加新的功能。显然，你需要停掉你的NodeJS进程重启你的服务，这样新的代码才会生效。那么问题来了：<em>你要怎样停掉服务，并且同时要继续服务好已经进来的请求呢？</em>。</p>
+</blockquote>
+<h2 id="开启一个HTTP服务器"><a href="#开启一个HTTP服务器" class="headerlink" title="开启一个HTTP服务器"></a>开启一个HTTP服务器</h2><p>我们在看怎样停止一个HTTP服务器之前让我们先看下怎样创建它。下面是一个简单的<code>ExpressJS</code> 服务器。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">const express = require(&apos;express&apos;)</span><br><span class="line"></span><br><span class="line">const expressApp = express()</span><br><span class="line"></span><br><span class="line">// Responds with Hello World or optionally the name you pass as path param</span><br><span class="line">expressApp.get(&apos;/hello/:name?&apos;, function (req, res) &#123;</span><br><span class="line">  const name = req.params.name</span><br><span class="line"></span><br><span class="line">  if (name) &#123;</span><br><span class="line">    return res.send(`Hello $&#123;name&#125;!!!`)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return res.send(&apos;Hello World !!!&apos;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">// Start server</span><br><span class="line">const server = expressApp.listen(3000, function () &#123;</span><br><span class="line">  console.log(&apos;App listening on port 3000!&apos;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="怎样停掉一个HTTP服务器？"><a href="#怎样停掉一个HTTP服务器？" class="headerlink" title="怎样停掉一个HTTP服务器？"></a>怎样停掉一个HTTP服务器？</h2><p>停掉HTTP服务器的最佳方式是调用 <code>server.close()</code> 方法，它将停止服务器接收新的连接但同时保证现有的请求都得到回应才停止服务。</p>
+<p>下面的代码新增加了个 <code>/close</code> 请求端点，一但被请求，就会停掉HTTP服务，然后退出应用（也就是停掉nodejs进程）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">app.get(&apos;/close&apos;, (req, res) =&gt; &#123;</span><br><span class="line">  console.log(&apos;Closing the server...&apos;)</span><br><span class="line"></span><br><span class="line">  server.close(() =&gt; &#123;</span><br><span class="line">    console.log(&apos;--&gt; Server call callback run !!&apos;)</span><br><span class="line"></span><br><span class="line">    process.exit()</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="优雅的关闭-重启服务，用或者不用PM2"><a href="#优雅的关闭-重启服务，用或者不用PM2" class="headerlink" title="优雅的关闭/重启服务，用或者不用PM2"></a>优雅的关闭/重启服务，用或者不用PM2</h2><p>优雅的关闭服务器，其实我们就是想关闭对新请求的通道，但是会保留正在处理的请求通道。</p>
+<p>当我们用像PM2这样的进程管理器时，我们管理的是进程集群，每个进程都扮演着HTTP服务器的角色。而PM2实现优雅的重启是下面的原因：</p>
+<ul>
+<li>发送一个 <code>SIGNINT</code> 信号给每个工作进程，</li>
+<li>工作进程会捕获这个信号，清理或者释放被使用的资源，然后完结这个进程，</li>
+<li>最后PM2新建一个进程</li>
+</ul>
+<p>因为进程集群处理重启是连续进行的，因此用户不会受到影响，因为这期间总是有进程在工作和处理请求。</p>
+<p>当我们部署新代码或者重启我们的服务器时，保证这些改变不会影响持续进来的请求是非常重要的。我们能通过下面的代码实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">// Graceful shutdown</span><br><span class="line">process.on(&apos;SIGINT&apos;, () =&gt; &#123;</span><br><span class="line">  const cleanUp = () =&gt; &#123;</span><br><span class="line">    // Clean up other resources like DB connections</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  console.log(&apos;Closing server...&apos;)</span><br><span class="line"></span><br><span class="line">  server.close(() =&gt; &#123;</span><br><span class="line">    console.log(&apos;Server closed !!! &apos;)</span><br><span class="line"></span><br><span class="line">    cleanUp()</span><br><span class="line">    process.exit()</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  // Force close server after 5secs</span><br><span class="line">  setTimeout((e) =&gt; &#123;</span><br><span class="line">    console.log(&apos;Forcing server close !!!&apos;, e)</span><br><span class="line"></span><br><span class="line">    cleanUp()</span><br><span class="line">    process.exit(1)</span><br><span class="line">  &#125;, 5000)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>当进程收到 <code>SINGINT</code> 信号时，它会执行 <code>server.close()</code> 函数去避免接收更多的请求，然后一旦进程被关闭，我们清理掉被应用使用的资源：比如关闭数据库连接，关闭打开的文件等等；执行完 <code>cleanUp()</code> 函数后我们就用 <code>process.exit()</code> 函数退出进程了。为了考虑特殊情况，为了避免代码花费太多的时间在关闭服务器上，我们强制服务器在一定时间后结束。</p>
+<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>当创建HTTP服务器时，不管是服务页面的应用还是服务接口的应用，我们都需要考虑到，我们一定会去增加新功能和修改bug，因此我们需要以尽量减少对用户的影响为思考点。</p>
+<p>以集群模式，运行nodejs进程是一个常用方式，这样我们能提高应用的性能，我们要想办法优雅的关闭所有进程，而且不会影响进来的请求。</p>
+<p>当我们讨论的是 HTTP 服务器时，用 <code>process.exit()</code> 方法结束 node 进程是不够的，因为它会意外的结束所有的通信；而相反，我们要首先停止接收新的连接，释放被用的资源，最后才是停止这个进程。</p>
+
+        
+        <div id="comment-container">
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = ""
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</html>
