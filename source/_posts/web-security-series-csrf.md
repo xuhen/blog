@@ -1,5 +1,5 @@
 ---
-title: 网络安全第二篇之csrf
+title: 网络安全第二篇之CSRF
 date: 2020-02-16 13:42:15
 tags:
     - web security

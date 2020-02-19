@@ -1,5 +1,5 @@
 ---
-title: 网络安全第一篇之xss
+title: 网络安全第一篇之XSS
 date: 2020-02-15 14:18:31
 tags:
     - web security
