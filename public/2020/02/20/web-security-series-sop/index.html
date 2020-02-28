@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="This is the blog page of Edward">
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        网络安全第四篇之SOP(同源策略) - undefined
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i>  </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="https://dn-coding-net-production-static.qbox.me/static/7a51352fa766f4176d7c4543339e0e98.png" />
+        </div>
+        <div class="name">
+            <i>Edward xu</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、什么是同源？"><span class="toc-text">1、什么是同源？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、非同源下什么是被允许，什么是被禁止的？"><span class="toc-text">2、非同源下什么是被允许，什么是被禁止的？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、Clickjacking是什么，怎样防止？"><span class="toc-text">3、Clickjacking是什么，怎样防止？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#链接"><span class="toc-text">链接</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i>  </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        网络安全第四篇之SOP(同源策略)
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2020-02-20 21:35:47</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#web security" title="web security">web security</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <blockquote>
+<p>同源策略是浏览器的安全特性，限制一个域的网页和脚本和另一个域的资源的交互。因为浏览器能加载和展示来自其他域的资源；我们也可能在浏览器上打开多个网站标签；一个网页也能嵌入来自不同域的<code>iframes</code>。如果这一切的交互方式没有限制，那就会存在很大安全隐患。</p>
+<p>同源策略通过禁止对来自不同源的资源进行读权限，而让网页更安全的。</p>
+</blockquote>
+<h2 id="1、什么是同源？"><a href="#1、什么是同源？" class="headerlink" title="1、什么是同源？"></a>1、什么是同源？</h2><p>一个源是被协议（比如HTTP或者HTTPS）、端口和主机定义的。当两个<code>URL</code>的这三个值相同时，我们认为是同源的。比如，<code>http://www.example.com/foo</code>和<code>http://www.example.com/bar</code>是同源的，但是和<code>https://www.example.com/bar</code>是不同源的，因为协议不同。</p>
+<h2 id="2、非同源下什么是被允许，什么是被禁止的？"><a href="#2、非同源下什么是被允许，什么是被禁止的？" class="headerlink" title="2、非同源下什么是被允许，什么是被禁止的？"></a>2、非同源下什么是被允许，什么是被禁止的？</h2><p>一般来说，嵌入非同源的资源是可以的，但是读取资源是禁止的。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>iframes</td>
+<td>跨域嵌入，通常是允许的（需要看X-Frame-Options指令的配置情况），但是跨域读取（用JavaScript去读取iframe嵌入的文件DOM结构）是被禁止的。</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>CSS</td>
+<td>跨域的CSS文件可以通过<code>&lt;link&gt;</code>元素嵌入，或者<code>@import</code>在css文件里引入。需要服务器返回正确的<code>Content-Type</code></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>forms</td>
+<td>跨域的<code>URL</code>可以做为action的值放在form表单里。网络应用可以把表单数据发送给跨域的地址。</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>images</td>
+<td>嵌入跨域的图片到网页是被允许的。然而，读取跨域图片（比如用JavaScript读取跨域图片到canvas元素）是被禁止的。</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>multimedia</td>
+<td>跨域的video和audio可以嵌入<code>&lt;video&gt;</code>和<code>&lt;audio&gt;</code>元素</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>script</td>
+<td>跨域脚本是可以被嵌入的；但是调用特定API是被禁止的（比如跨域发起的fetch请求）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3、Clickjacking是什么，怎样防止？"><a href="#3、Clickjacking是什么，怎样防止？" class="headerlink" title="3、Clickjacking是什么，怎样防止？"></a>3、Clickjacking是什么，怎样防止？</h2><p>将网站嵌入<code>iframe</code>，并且将透明的按钮覆盖在上面，指向其他网址的做法就叫 clickjacking。用户被诱导点击之后其实跳到其他地址了。</p>
+<p>为了防止其他网站将你的网页嵌入<code>iframe</code>中，可以添加一条CSP指令<code>fram-ancestors</code>到HTTP头里。</p>
+<p>另外也可以添加<code>X-Frame-Option</code>（已经被CSP指令替换了）到HTTP头里，选项请看MDN<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options" target="_blank" rel="noopener">MDN</a></p>
+<p>下面是<code>clickJacking</code>示例：</p>
+<p><img src="https://web.dev/same-origin-policy/clickjacking.png" alt="clickJacking"></p>
+<h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><p><a href="https://web.dev/same-origin-policy/" target="_blank" rel="noopener">Same-origin policy</a></p>
+
+        
+        <div id="comment-container">
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = ""
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</html>

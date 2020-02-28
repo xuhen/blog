@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="This is the blog page of Edward">
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        网络安全第二篇之CSRF - undefined
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i>  </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="https://dn-coding-net-production-static.qbox.me/static/7a51352fa766f4176d7c4543339e0e98.png" />
+        </div>
+        <div class="name">
+            <i>Edward xu</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、CSRF是什么？"><span class="toc-text">1、CSRF是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、CSRF攻击实例"><span class="toc-text">2、CSRF攻击实例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1、简单版"><span class="toc-text">2-1、简单版</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2、升级版"><span class="toc-text">2-2、升级版</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3、进阶版"><span class="toc-text">2-3、进阶版</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、CSRF攻击的本质"><span class="toc-text">3、CSRF攻击的本质</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4、CSRF的防御手段"><span class="toc-text">4、CSRF的防御手段</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1、尽量使用POST，限制GET"><span class="toc-text">4-1、尽量使用POST，限制GET</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2、浏览器的Cookie策略"><span class="toc-text">4-2、浏览器的Cookie策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3、加验证码"><span class="toc-text">4-3、加验证码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4、Referer-Check"><span class="toc-text">4-4、Referer Check</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5、Anti-CSRF-Token"><span class="toc-text">4-5、Anti CSRF Token</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结束语"><span class="toc-text">结束语</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#链接"><span class="toc-text">链接</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i>  </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        网络安全第二篇之CSRF
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2020-02-16 13:42:15</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#web security" title="web security">web security</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <blockquote>
+<p>跨站请求伪造，也被称为<code>One Click Attack</code>或者<code>Session Riding</code>，通常缩写<code>CSRF</code>或者<code>XSRF</code>，是一种网络的攻击方式，它在2007年曾被列为互联网20大安全隐患之一。</p>
+</blockquote>
+<h2 id="1、CSRF是什么？"><a href="#1、CSRF是什么？" class="headerlink" title="1、CSRF是什么？"></a>1、CSRF是什么？</h2><p>CSRF（Cross Site Request Forgery），中文是跨站点请求伪造，CSRF攻击者在用户已经登录目标网站后，诱使用户访问一个攻击页面，利用目标网站对用户的信任，以用户身份在攻击的页面对目标网站发起伪造的用户操作请求，达到攻击的目的。</p>
+<h2 id="2、CSRF攻击实例"><a href="#2、CSRF攻击实例" class="headerlink" title="2、CSRF攻击实例"></a>2、CSRF攻击实例</h2><h3 id="2-1、简单版"><a href="#2-1、简单版" class="headerlink" title="2-1、简单版"></a>2-1、简单版</h3><p>假如我的银行有个转账的接口，account明显是我的账号，to是我要转给的人，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://bank.example/withdraw?account=edward&amp;amount=1000000&amp;to=bob</span><br></pre></td></tr></table></figure>
+<p>试想下，有人将上面的链接放到我最喜欢的博客网站，并且我恰好刚登录过我的银行网站，那我点击那个链接的后果就是：把我账号里的钱转给bob了。而且这一切都是在我毫不知情的情况下发生的。</p>
+<h3 id="2-2、升级版"><a href="#2-2、升级版" class="headerlink" title="2-2、升级版"></a>2-2、升级版</h3><p>假如我的银行还是有个转账的接口，不过限制了只能发POST的转账请求了。这个时候就做一个第三方的页面，里面包含一个form表单的提交代码，然后通过微信，邮箱等社交工具传播，诱惑用户去打开，那之前登录过这个银行账号的用户就中招了。</p>
+<p>有人可能会像下面这样去写这个第三方页面：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE HTML&gt;</span><br><span class="line">&lt;html lang=&quot;en-US&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;title&gt;CSRF SHOW&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">    &lt;body&gt;</span><br><span class="line">        &lt;!--不嵌iframe会跳转--&gt;</span><br><span class="line">        &lt;iframe style=&quot;display:none;&quot;&gt;</span><br><span class="line">            &lt;form  name=&quot;form1&quot; action=&quot;bank.example/withdraw&quot; method=&quot;post&quot;&gt;</span><br><span class="line">                &lt;input type=&quot;hidden&quot; name=&quot;account&quot; value=&quot;bob&quot;/&gt;</span><br><span class="line">                &lt;input type=&quot;hidden&quot; name=&quot;to&quot; value=&quot;edward&quot;/&gt;</span><br><span class="line">                &lt;input type=&quot;hidden&quot; name=&quot;amount&quot; value=&quot;1000000&quot;/&gt;</span><br><span class="line">                &lt;input type=&quot;submit&quot;&gt;</span><br><span class="line">            &lt;/form&gt;</span><br><span class="line">            &lt;script&gt;</span><br><span class="line">                document.forms.form1.submit();</span><br><span class="line">            &lt;/script&gt;</span><br><span class="line">        &lt;/iframe&gt;</span><br><span class="line">    &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>这样是有问题的，因为同源策略，iframe的内容根本加载不出来，所以里面的form表单压根都执行不了。</p>
+<p>所以可以用多嵌一层页面的方式解决，如下：</p>
+<p>第一个展示页面 （test.html）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE HTML&gt;</span><br><span class="line">&lt;html lang=&quot;en-US&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;title&gt;CSRF SHOW&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">     &lt;body&gt;</span><br><span class="line">          &lt;iframe style=&quot;display:none;&quot; src=&quot;test2.html&quot;&gt;&lt;/iframe&gt;</span><br><span class="line">     &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>第二个隐藏页面（test2.html）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE HTML&gt;</span><br><span class="line">&lt;html lang=&quot;en-US&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;title&gt;CSRF SHOW&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">    &lt;body&gt;</span><br><span class="line">        &lt;form  name=&quot;form1&quot; action=&quot;bank.example/withdraw&quot; method=&quot;post&quot;&gt;</span><br><span class="line">            &lt;input type=&quot;hidden&quot; name=&quot;account&quot; value=&quot;bob&quot;/&gt;</span><br><span class="line">            &lt;input type=&quot;hidden&quot; name=&quot;to&quot; value=&quot;edward&quot;/&gt;</span><br><span class="line">            &lt;input type=&quot;hidden&quot; name=&quot;amount&quot; value=&quot;1000000&quot;/&gt;</span><br><span class="line">            &lt;input type=&quot;submit&quot;&gt;</span><br><span class="line">        &lt;/form&gt;</span><br><span class="line">        &lt;script&gt;</span><br><span class="line">            document.forms.form1.submit();</span><br><span class="line">        &lt;/script&gt;</span><br><span class="line">    &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>这样就可以解决上面的问题了，这里为什么会多加一层iframe呢，因为不嵌iframe页面会被重定向，这样就降低了攻击的隐蔽性。另外我们的test2.html页面不使用XMLHTTPRqest发送POST请求，是因为有跨域问题，而form可以跨域post数据。</p>
+<h3 id="2-3、进阶版"><a href="#2-3、进阶版" class="headerlink" title="2-3、进阶版"></a>2-3、进阶版</h3><p>假如我的银行还是是有个转账接口，已经限制为POST，但上面的form表单是被我直接放到银行页面的客服留言里，并且展示在了评论区（未过滤），那我的银行就遭受到了XSS攻击了。那么只要把上面被攻击的页面发给其他用户，让他们点击进入，就会自动向我的银行账号转账了，这个组合攻击的方式称为<code>XSRF</code>。</p>
+<h2 id="3、CSRF攻击的本质"><a href="#3、CSRF攻击的本质" class="headerlink" title="3、CSRF攻击的本质"></a>3、CSRF攻击的本质</h2><p>CSRF攻击是源于 <em>Web的隐式身份验证机制</em> Web的身份验证机制虽然可以保证一个请求是来自用户的浏览器，但却无法保证该请求是用户批准发送的。CSRF一般是服务端解决。</p>
+<h2 id="4、CSRF的防御手段"><a href="#4、CSRF的防御手段" class="headerlink" title="4、CSRF的防御手段"></a>4、CSRF的防御手段</h2><h3 id="4-1、尽量使用POST，限制GET"><a href="#4-1、尽量使用POST，限制GET" class="headerlink" title="4-1、尽量使用POST，限制GET"></a>4-1、尽量使用POST，限制GET</h3><p>GET接口太容易被拿来做CSRF攻击，看那个简单例子就知道，我们只要构造一个 img标签或者a标签，就能很方便的发起攻击了。接口限制为POST可以降低攻击的风险。</p>
+<p>当然POST也不是万无一失，攻击者只要构造一个form表单就可以，但是要在第三方页面做，这样无疑会增加暴露的可能性。</p>
+<h3 id="4-2、浏览器的Cookie策略"><a href="#4-2、浏览器的Cookie策略" class="headerlink" title="4-2、浏览器的Cookie策略"></a>4-2、浏览器的Cookie策略</h3><p>IE6、7、8、Safari会默认拦截第三方本地Cookie的发送（Third-party Cookie）。但是Firefox2、3、Opera、Chrome、Android等不会拦截，所以通过浏览器Cookie策略来预防CSRF攻击不靠谱，只能降低风险。</p>
+<p>PS：Cookie分为两种，Session Cookie（在浏览器关闭后，就会失效，保存在内存中），Third-part Cookie (即只有到了Exprie后才会失效的Cookie，这种Cookie会保存到本地)。</p>
+<h3 id="4-3、加验证码"><a href="#4-3、加验证码" class="headerlink" title="4-3、加验证码"></a>4-3、加验证码</h3><p>验证码，强制用户必须与应用进行交互，才能完成最终的请求。在通常情况下，验证码能很好的遏制CSRF攻击，但是考虑到用户体验，网站不能强制给所有操作都加上验证码。因此验证码只作为一种辅助手段，不能作为主要解决方案。</p>
+<h3 id="4-4、Referer-Check"><a href="#4-4、Referer-Check" class="headerlink" title="4-4、Referer Check"></a>4-4、Referer Check</h3><p>Referer Check在WEB最常见的应用就是 <em>防止图片盗链</em>。同理，Referer Check也可以被用于请求是否来自合法的 “源”，Referer的值是否是指向页面，或其他在白名单的域，如果不在，就很可能是CSRF攻击了。</p>
+<p>这种方法显而易见的好处，就是简单易行，但是Referer的值是浏览器提供的，而浏览器对Referer的具体实现有可能有差别，并不能保证浏览器自身没有安全漏洞。对于某些浏览器，比如IE6或者Firefox2，提供了一些方法来篡改Referer值。即便使用最新的浏览器，黑客无法篡改Referer的值，因为Referer值会记录下用户的访问源，有些用户会认为这样会侵犯到他们的隐私权，因此用户可以自己设置浏览器，使其在发送请求时不提供Referer。</p>
+<p>所以，我们也无法用Referer Check作为防御CSRF攻击的主要手段。但是可以用它来监控CSRF的发生。</p>
+<h3 id="4-5、Anti-CSRF-Token"><a href="#4-5、Anti-CSRF-Token" class="headerlink" title="4-5、Anti CSRF Token"></a>4-5、Anti CSRF Token</h3><p>现在业界对CSRF的防御，一致的做法是使用Token （Anti CSRF Token）。步骤如下：</p>
+<blockquote>
+<p>1、用户访问某个表单页。</p>
+<p>2、服务端生成一个Token，放在用户的Session中，或者浏览器的Cookie中。</p>
+<p>3、在页面表单附带上Token参数</p>
+<p>4、用户提交请求后，服务器验证表单中的Token是否于用户Session（或Cookie）中的Token一致，一致为合法请求，不一致则为非法请求。</p>
+</blockquote>
+<p>这个Token的值必须是随机的，不可预测。由于Token的存在，攻击者无法在构造一个带有合法Token的请求实施CSRF攻击。另外使用Token时应注意 <em>Token的保密性</em> ，尽量把敏感的操作由GET改为POST，以form表单或Ajax形式提交。</p>
+<p>Token仅仅是对抗CSRF的攻击。当网站同事存在XSS漏洞时，那这个方案也是无效的。所以XSS带来的问题，应该用XSS的防御方案给与解决。</p>
+<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>CSRF是一种危害极大的攻击，又很难防御。目前几种防御策略虽然可以很多程度上抵御CSRF的攻击，但是并没有一种完美的解决方案。一些新的方案真在研究中，比如每次请求都使用不同的动态口令，把Referer和Token的方案结合起来，甚至尝试修改HTTP规范，但这些新的方案尚不成熟，要正式投入并被业界广泛接受还需时日。在这之前，我们只有充分重视CSRF，根据系统的实际情况选择合适的策略，这样才能把CSRF的危害降到最低。</p>
+<h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><p><a href="https://www.ibm.com/developerworks/cn/web/1102_niugang_csrf/index.html" target="_blank" rel="noopener">CSRF 攻击的应对之道</a></p>
+<p><a href="https://www.cnblogs.com/lovesong/p/5233195.html" target="_blank" rel="noopener">Web安全之CSRF攻击</a></p>
+
+        
+        <div id="comment-container">
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = ""
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</html>
