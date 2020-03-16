@@ -145,6 +145,24 @@ Referer Check在WEB最常见的应用就是 *防止图片盗链*。同理，Refe
 
 Token仅仅是对抗CSRF的攻击。当网站同事存在XSS漏洞时，那这个方案也是无效的。所以XSS带来的问题，应该用XSS的防御方案给与解决。
 
+### 4-6、ajax-based 防御
+
+```
+// server.js
+var csrf = require('csurf');
+app.use(csrf());
+app.use(function (req, res, next) {
+    res.cookie('XSRF-TOKEN', req.csrfToken());
+    next();
+});
+
+// client.js
+headers['XSRF-TOKEN'] = cookie['XSRF-TOKEN']
+ajax.send();
+
+
+```
+
 
 ## 结束语
 
