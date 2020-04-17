@@ -56,25 +56,25 @@
             <li >
                 <a href="/">
                     <i class="iconfont icon-shouye1"></i>
-                    <span>主页</span>
+                    <span>HOME</span>
                 </a>
             </li>
             <li  class=active >
                 <a href="/tags">
                     <i class="iconfont icon-biaoqian1"></i>
-                    <span>标签</span>
+                    <span>TAGS</span>
                 </a>
             </li>
             <li >
                 <a href="/archives">
                     <i class="iconfont icon-guidang2"></i>
-                    <span>存档</span>
+                    <span>ARCHIVES</span>
                 </a>
             </li>
             <li >
                 <a href="/about/">
                     <i class="iconfont icon-guanyu2"></i>
-                    <span>关于</span>
+                    <span>ABOUT</span>
                 </a>
             </li>
             
@@ -89,7 +89,7 @@
         <div class="search-input">
             <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
             <input id="search-input"/>
-            <span id="begin-search">搜索</span>
+            <span id="begin-search">search</span>
         </div>
         <div class="search-result-container" id="search-result-container">
 
@@ -105,27 +105,29 @@
         <!-- Main Content -->
         <div id='tag_cloud' class="tags">
     
+    <a href="#nodeJS" title="nodeJS" rel="4">nodeJS</a>
+    
     <a href="#computer" title="computer" rel="1">computer</a>
     
-    <a href="#nodeJS" title="nodeJS" rel="4">nodeJS</a>
+    <a href="#browser" title="browser" rel="1">browser</a>
+    
+    <a href="#js" title="js" rel="4">js</a>
+    
+    <a href="#util" title="util" rel="4">util</a>
     
     <a href="#JSX" title="JSX" rel="1">JSX</a>
     
-    <a href="#js" title="js" rel="2">js</a>
-    
-    <a href="#util" title="util" rel="3">util</a>
-    
     <a href="#English" title="English" rel="1">English</a>
-    
-    <a href="#hook" title="hook" rel="2">hook</a>
     
     <a href="#react" title="react" rel="2">react</a>
     
+    <a href="#hook" title="hook" rel="2">hook</a>
+    
     <a href="#mobile" title="mobile" rel="1">mobile</a>
     
-    <a href="#web security" title="web security" rel="4">web security</a>
-    
     <a href="#async" title="async" rel="1">async</a>
+    
+    <a href="#web security" title="web security" rel="4">web security</a>
     
     <a href="#redux" title="redux" rel="1">redux</a>
     
@@ -135,27 +137,6 @@
 
 <!-- 标签列表 -->
 
-
-<div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="computer">
-                    <span class="tag-text">computer</span>
-                </span>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/2019/12/31/computer-questions/">
-            <h2 class="post-title">
-                一些计算机的问题
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-</div>
 
 <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="nodeJS">
@@ -181,9 +162,9 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
-        <a href="/2020/02/08/understand-nodejs-cluster-module/">
+        <a href="/2020/02/11/shutdown-nodejs-http-server-using-pm2/">
             <h2 class="post-title">
-                理解nodejs中的cluster模块
+                用PM2优雅的停掉NodeJS服务器
             </h2>
             
         </a>
@@ -195,9 +176,9 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
-        <a href="/2020/02/11/shutdown-nodejs-http-server-using-pm2/">
+        <a href="/2020/02/08/understand-nodejs-cluster-module/">
             <h2 class="post-title">
-                用PM2优雅的停掉NodeJS服务器
+                理解nodejs中的cluster模块
             </h2>
             
         </a>
@@ -221,8 +202,8 @@
 </div>
 
 <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="JSX">
-                    <span class="tag-text">JSX</span>
+                <span class="fa fa-tag listing-seperator" id="computer">
+                    <span class="tag-text">computer</span>
                 </span>
     
     <!-- <li class="listing-item">
@@ -230,9 +211,30 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
-        <a href="/2020/01/17/jsx-transform-rules/">
+        <a href="/2019/12/31/computer-questions/">
             <h2 class="post-title">
-                babel转换jsx的5条规则
+                一些计算机的问题
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="browser">
+                    <span class="tag-text">browser</span>
+                </span>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/2020/04/17/detect-useragent-browser/">
+            <h2 class="post-title">
+                使用 userAgent 检测浏览器环境
             </h2>
             
         </a>
@@ -245,6 +247,34 @@
                 <span class="fa fa-tag listing-seperator" id="js">
                     <span class="tag-text">js</span>
                 </span>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/2020/04/17/detect-useragent-browser/">
+            <h2 class="post-title">
+                使用 userAgent 检测浏览器环境
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/2020/04/15/drag-drop-section/">
+            <h2 class="post-title">
+                拖动图片和文字
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
     
     <!-- <li class="listing-item">
     <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
@@ -280,6 +310,20 @@
                 <span class="fa fa-tag listing-seperator" id="util">
                     <span class="tag-text">util</span>
                 </span>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/2020/04/17/detect-useragent-browser/">
+            <h2 class="post-title">
+                使用 userAgent 检测浏览器环境
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
     
     <!-- <li class="listing-item">
     <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
@@ -326,6 +370,27 @@
 </div>
 
 <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="JSX">
+                    <span class="tag-text">JSX</span>
+                </span>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/2020/01/17/jsx-transform-rules/">
+            <h2 class="post-title">
+                babel转换jsx的5条规则
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+</div>
+
+<div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="English">
                     <span class="tag-text">English</span>
                 </span>
@@ -338,41 +403,6 @@
         <a href="/2019/12/28/random-english-quotes/">
             <h2 class="post-title">
                 英语常用表达
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-</div>
-
-<div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="hook">
-                    <span class="tag-text">hook</span>
-                </span>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/2019/12/27/react-hook-implement-function-of-redux/">
-            <h2 class="post-title">
-                用 React Hook 配合 Provider 和 Consumer 模拟 Redux 的功能
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/2019/12/27/react-hook-deep-understand/">
-            <h2 class="post-title">
-                react hook 如何工作解析
             </h2>
             
         </a>
@@ -417,6 +447,41 @@
 </div>
 
 <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="hook">
+                    <span class="tag-text">hook</span>
+                </span>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/2019/12/27/react-hook-implement-function-of-redux/">
+            <h2 class="post-title">
+                用 React Hook 配合 Provider 和 Consumer 模拟 Redux 的功能
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/2019/12/27/react-hook-deep-understand/">
+            <h2 class="post-title">
+                react hook 如何工作解析
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+</div>
+
+<div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="mobile">
                     <span class="tag-text">mobile</span>
                 </span>
@@ -438,6 +503,27 @@
 </div>
 
 <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="async">
+                    <span class="tag-text">async</span>
+                </span>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/2019/11/10/use-generators-and-promise-to-implement-async/">
+            <h2 class="post-title">
+                用 generators 和 promise 模拟 async 的功能
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+</div>
+
+<div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="web security">
                     <span class="tag-text">web security</span>
                 </span>
@@ -447,9 +533,9 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
-        <a href="/2020/02/16/web-security-series-csrf/">
+        <a href="/2020/02/20/web-security-series-sop/">
             <h2 class="post-title">
-                网络安全第二篇之CSRF
+                网络安全第四篇之SOP(同源策略)
             </h2>
             
         </a>
@@ -475,44 +561,23 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
+        <a href="/2020/02/16/web-security-series-csrf/">
+            <h2 class="post-title">
+                网络安全第二篇之CSRF
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
         <a href="/2020/02/15/web-security-series-xss/">
             <h2 class="post-title">
                 网络安全第一篇之XSS
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/2020/02/20/web-security-series-sop/">
-            <h2 class="post-title">
-                网络安全第四篇之SOP(同源策略)
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-</div>
-
-<div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="async">
-                    <span class="tag-text">async</span>
-                </span>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/2019/11/10/use-generators-and-promise-to-implement-async/">
-            <h2 class="post-title">
-                用 generators 和 promise 模拟 async 的功能
             </h2>
             
         </a>
