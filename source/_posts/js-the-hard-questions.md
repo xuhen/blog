@@ -405,3 +405,72 @@ console.log(format('1234567'))
     })
 
 ```
+
+Q. 关于js函数中this的指向问题
+
+```
+1. 我们知道，this 对象是在运行时基于函数的执行环境绑定的: 在全局函数中，this 等于 window，而当函数被作为某个对象的方法调用时，this 等于那个对象
+2. 匿名函数的执行环境具有全局性，因此其 this 对象通常指向 window。但有时候 由于编写闭包的方式不同，这一点可能不会那么明显。
+
+下面来看一个例子:
+var name = "The Window";
+var object = {
+  name: "My Object",
+  getNameFunc: function () {
+    return function () {
+      return this.name;
+    };
+  }
+};
+console.log(object.getNameFunc()());  //"The Window"(在非严格模式下)
+
+为什么匿名函数没 有取得其包含作用域(或外部作用域)的 this 对象呢?
+
+答： 每个函数在被调用时都会自动取得两个特殊变量:this 和 arguments。内部函数在搜索这两个变量时，只会搜索到其活动对象为止，因此永远不可能直接访问外部函数中的这两个变量。
+  不过，把外部作用域中的 this 对象保存在一个闭包能够访问到的变量里，就可以让闭包访问该对象了
+
+var name = "The Window";
+var object = {
+    name: "My Object",
+    getNameFunc: function () {
+      var that = this;
+      return function () {
+        return that.name;
+      };
+    }
+};
+
+```
+
+
+Q. 获取嵌套对象的属性
+
+```
+function get(o, path) {
+    var paths = path.split(/[.[\],]/).filter(Boolean);
+    return paths.reduce((ac, cur) => {
+        return (ac && ac[cur] !== 'undefined') ? ac[cur] : undefined;
+    }, o)
+}
+
+
+var obj = {
+    a: {
+        b: {
+            c: 1
+
+        },
+        d: [
+            {
+                e: 1,
+                f: 2
+            }
+        ]
+    }
+};
+
+
+var r = get(obj, 'a.d[0].e');
+
+console.log(r);
+```
