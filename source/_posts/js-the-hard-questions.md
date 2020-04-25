@@ -41,9 +41,9 @@ A:
 var xhr = new XMLHttpRequest();
 xhr.open("get", "url", true);
 xhr.setRequestHeader("key", "value");
-xhr.onload = function() {
-	var data = JSON.parse(xhr.responseText);
+xhr.onreadystatechange = function() {
 	if (xhr.readyState === 4 && xhr.status === 200) {
+	  var data = JSON.parse(xhr.responseText);
 
 	}
 }
@@ -473,4 +473,72 @@ var obj = {
 var r = get(obj, 'a.d[0].e');
 
 console.log(r);
+```
+
+Q. js中的数据类型
+
+```
+1. 简单类型
+
+Undefined Null Boolean Number String Symbol
+
+2. 复杂类型
+Object
+```
+
+## Q. 动态加载脚本的通用方法
+
+```
+  function loadScript(url){
+    var script = document.createElement("script"); 
+    script.type = "text/javascript";
+    script.src = url; 
+    document.body.appendChild(script);
+  }
+  loadScript("client.js");
+
+  function loadScriptString(code) {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+
+    try {
+      // IE可能报错
+      script.appendChild(document.createTextNode(code));
+    } catch (ex) {
+      // 在IE中
+      script.text = code;
+    }
+    document.body.appendChild(script);
+  }
+  loadScriptString("function sayHi(){alert('hi');}");
+  sayHi()
+
+  function loadStyles(url) {
+    var link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.type = "text/css";
+    link.href = url;
+    var head = document.getElementsByTagName("head")[0];
+    head.appendChild(link);
+
+  }
+  loadStyles("style.css");
+
+  function loadStyleString(css) {
+    var style = document.createElement("style");
+    style.type = "text/css";
+    try {
+      // IE可能报错
+      style.appendChild(document.createTextNode(css));
+    } catch (ex) {
+      // IE中的fallback
+      style.styleSheet.cssText = css;
+    }
+    var head = document.getElementsByTagName("head")[0];
+    head.appendChild(style);
+  }
+
+  loadStyleString("body{background-color:red}");
+
+  
 ```
