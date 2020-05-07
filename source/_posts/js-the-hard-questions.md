@@ -480,7 +480,26 @@ Q. js中的数据类型
 ```
 1. 简单类型
 
-Undefined Null Boolean Number String Symbol
+var a = undefined;
+var b = 12;
+var c = true;
+var d = '';
+var e = function () { }
+var f = {};
+var g = Symbol();
+
+console.log(
+    typeof a,
+    typeof b,
+    typeof c,
+    typeof d,
+    typeof e,
+    typeof f,
+    typeof g,
+
+);
+
+// undefined number boolean string function object symbol
 
 2. 复杂类型
 Object
@@ -541,4 +560,101 @@ Object
   loadStyleString("body{background-color:red}");
 
   
+```
+
+## Q. script标签的defer和async的区别
+
+```
+两者都会并行下载，不会影响页面的解析。
+
+defer 会按照顺序在 DOMContentLoaded 前按照页面出现顺序依次执行。
+
+async 当脚本下载完后立即执行。（两者执行顺序不确定，执行阶段不确定，可能在 DOMContentLoaded 事件前或者后 ）
+```
+
+![reflow](http://xuheng.inject.top/images/defer.jpg)
+
+
+## CSS/JS 阻塞 DOM 解析和渲染
+
+https://harttle.land/2016/11/26/static-dom-render-blocking.html
+
+
+## uncurrying
+
+```
+Function.prototype.uncurrying = function () {
+    var self = this;
+    return function () {
+        var obj = Array.prototype.shift.call(arguments);
+        return self.apply(obj, arguments);
+    };
+};
+
+
+for (var i = 0, fn, ary = ['push', 'shift', 'forEach']; fn = ary[i++];) {
+    Array[fn] = Array.prototype[fn].uncurrying();
+};
+
+var obj = {
+    "length": 3,
+    "0": 1,
+    "1": 2,
+    "2": 3
+};
+
+Array.push(obj, 4);
+console.log(obj.length);
+
+var first = Array.shift(obj); // 截取第一个元素
+console.log(first); // 输出:1
+console.log(obj);
+
+Array.forEach(obj, function (i, n) {
+    console.log(i, n); // 分别输出:0, 1, 2
+});
+```
+
+
+## 惰性加载函数
+
+```
+var addEvent = function (elem, type, handler) {
+  if (window.addEventListener) {
+    addEvent = function (elem, type, handler) {
+      elem.addEventListener(type, handler, false);
+    }
+  } else if (window.attachEvent) {
+    addEvent = function (elem, type, handler) {
+      elem.attachEvent('on' + type, handler)
+    }
+  }
+
+  addEvent(elem, type, handler);
+}
+
+
+var btn = document.getElementById('execute')
+
+addEvent(btn, 'click', function () {
+  console.log('click');
+});
+```
+
+## 高阶函数定义
+
+```
+1. 函数可以作为参数被传递;
+2. 函数可以作为返回值输出。
+```
+
+## this 的指向
+
+```
+this 的指向分4种
+
+1. 作为对象的方法调用
+2. 作为普通函数调用
+3. 构造器调用
+4. Function.prototype.call 和 Function.prototype.apply 调用
 ```
