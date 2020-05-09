@@ -658,3 +658,15 @@ this 的指向分4种
 3. 构造器调用
 4. Function.prototype.call 和 Function.prototype.apply 调用
 ```
+
+## DOM的扩展都增加了哪些内容？
+
+```
+1. 选择符api: querySelector, querySelectorAll
+2. 元素遍历的属性:
+    - childElementCount
+    - firstElementChild
+    - lastElementChild
+    - previousElementSibling
+    - nextElementSibling
+```
