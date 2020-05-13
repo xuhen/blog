@@ -40,6 +40,7 @@ const throttle = (func, wait) => {
     const ctx = this;
 
     const helper = function () {
+      func.apply(ctx, args)
       timer = null;
     }
 
@@ -424,7 +425,68 @@ Function.prototype.bind2 = function (context) {
 https://segmentfault.com/a/1190000008705541
 
 
+Promise.all 实现代码
 
+Promise.all = function (promises) {
+    let results = [];
+    let promiseCount = 0;
+    let promisesLength = promises.length;
+    return new Promise(function (resolve, reject) {
+        for (let i = 0; i < promisesLength; i++) {
+            let val = promises[i];
+            Promise.resolve(val).then(function (res) {
+                promiseCount++;
+                results[i] = res;
+                if (promiseCount === promisesLength) {
+                    return resolve(results);
+                }
+            }).catch((err) => {
+                return reject(err);
+            });
+        }
+    });
+};
 
+let promise1 = new Promise(function (resolve) {
+    setTimeout(() => {
+        resolve(1);
+    }, 1000)
+});
+let promise2 = new Promise(function (resolve) {
+    resolve(2);
+});
+let promise3 = new Promise(function (resolve) {
+    resolve(3);
+});
+
+let promiseAll = Promise.all([promise1, promise2, promise3]);
+promiseAll.then(function (res) {
+    console.log(res);
+});
 
 ```
+
+
+jsonp 函数实现
+
+var jsonp = function (url, callback) {
+  var cbname = 'jsonpRequest_' + Date.now();
+
+  window[cbname] = function (data) {
+    callback(data);
+
+    document.body.removeChild(script);
+    delete window[cbname];
+  }
+  url += url.indexOf('?') == -1 ? '?' : '&';
+  url += 'callback=' + cbname;
+  var script = document.createElement('script');
+  script.src = url;
+  script.type = 'text/javascript';
+  document.body.appendChild(script);
+}
+
+jsonp('http://api.douban.com/v2/movie/in_theaters', function (data) {
+  console.log(data);
+
+});
