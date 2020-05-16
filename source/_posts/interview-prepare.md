@@ -69,21 +69,18 @@ var r = random(10, 20);
 console.log(r);
 
 
-function upperCasetoLine(str) {
-  return str.replace(/[A-Z]/g, (mc) => {
-    return '-' + mc.toLowerCase();
-  });
+function camelCaseToDash(str) {
+  return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
 }
 
-function lineToUpperCase(str) {
-  return str.replace(/-(\w)/g, (mc, p1) => {
-    console.log(mc);
-
-    return p1.toUpperCase();
-  });
+function dashToCamelCase(str) {
+  return str.replace(/-([a-z])/g, function (a, m) {
+    console.log(a, m);
+    return m.toUpperCase();
+  })
 }
-// var r = upperCasetoLine('helloWorldNiceToMeetYou');
-var r = lineToUpperCase('hello-world-nice-to-meet-you');
+// var r = camelCaseToDash('helloWorldNiceToMeetYou');
+var r = dashToCamelCase('hello-world-nice-to-meet-you');
 
 console.log(r);
 
@@ -469,6 +466,7 @@ promiseAll.then(function (res) {
 
 jsonp 函数实现
 
+```
 var jsonp = function (url, callback) {
   var cbname = 'jsonpRequest_' + Date.now();
 
@@ -490,3 +488,24 @@ jsonp('http://api.douban.com/v2/movie/in_theaters', function (data) {
   console.log(data);
 
 });
+```
+
+es5的继承
+
+```
+function Child() {
+  Parent.call(this)
+}
+
+function Parent() {
+
+}
+Child.prototype = Object.create(Super.prototype, {
+  constructor: {
+    value: Child,
+    enumerable: false,//不能枚举
+    writable: true,
+    configurable: true
+  }
+});
+```

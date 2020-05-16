@@ -24,13 +24,22 @@ $.each( [1, 2, 3], function( i, n ){
 
 ```
 function each(arr, callback) {
-    for(var i = 0; i < arr.length; i++) {
-        callback(i, arr[i]);
+  var value;
+  for (var i = 0; i < arr.length; i++) {
+    value = callback.call(null, i, arr[i]);
+
+    if (value === false) {
+      break;
     }
+  }
 }
 
-each( [ 1, 2, 3 ], function( i, n ){
-     alert ( [ i, n ] );
+each([1, 2, 3], function (i, n) {
+  console.log([i, n]);
+
+  if (i === 1) {
+    return false;
+  }
 });
 ```
 
