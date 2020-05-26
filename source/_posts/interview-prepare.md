@@ -2,10 +2,11 @@
 title: 面试准备
 date: 2020-04-28 10:02:47
 tags:
-    - interview
+  - interview
 ---
 
 > 下面是一些在面试中常考的知识点总结
+
 
 ```
 function debounce(f, wait, immediate) {
@@ -33,23 +34,21 @@ function debounce(f, wait, immediate) {
   }
 }
 
-const throttle = (func, wait) => {
-  let timer;
+function throttle(fn, wait) {
+  let inThrottle = false;
   return function () {
     const args = arguments;
     const ctx = this;
-
-    const helper = function () {
-      func.apply(ctx, args)
-      timer = null;
-    }
-
-    if (!timer) {
-      func.apply(ctx, args)
-      timer = setTimeout(helper, wait)
+    if (!inThrottle) {
+      fn.apply(ctx, args);
+      inThrottle = true;
+      setTimeout(() => {
+        inThrottle = false;
+      }, wait)
     }
   }
 }
+
 
 function resize() {
   console.log('resize');
@@ -305,6 +304,7 @@ function curry(func) {
     };
 }
 
+// example1
 const sub = function (a, b, c, d) {
     return a + b + c + d;
 }
@@ -315,6 +315,35 @@ var r  = subCurry(1)(2)(3)(4);
 
 console.log(r);
 
+// example2
+function checkByRegExp(regExp, string) {
+    return regExp.test(string);
+}
+let _check = curry(checkByRegExp);
+
+let checkCellPhone = _check(/^1\d{10}$/);
+let checkEmail = _check(/^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/);
+
+console.log(checkCellPhone('18642838455'));
+console.log(checkEmail('test@qq.com'));
+
+// example3
+
+let list = [
+    {
+        name: 'lucy'
+    },
+    {
+        name: 'jack'
+    }
+]
+const map = function (key, obj) {
+    return obj[key];
+};
+let prop = curry(map)
+let names = list.map(prop('name'));
+
+console.log(names);
 
 // aop
 Function.prototype.aopBefore = function (fn) {
@@ -382,21 +411,28 @@ var r = bar.myCall(foo, 'edward', 23);
 console.log(r);
 
 // 发布订阅模式和观察者模式区别
-https://www.cnblogs.com/onepixel/p/10806891.html
+// https://www.cnblogs.com/onepixel/p/10806891.html
 
 // 二分查找
-function binarSearch(array, obj) {
+function binarSearch(arr, target) {
+  var lo = 0;
+  var hi = arr.length - 1;
 
-    var low = 0, high = array.length;
+  while (lo <= hi) {
+    var mid = lo + Math.floor((hi - lo) / 2);
 
-    while (low < high) {
-        var mid = Math.floor((low + high) / 2);
-        if (array[mid] < obj) low = mid + 1;
-        else high = mid;
+    if (arr[mid] > target) {
+      hi = mid - 1;
+    } else if (arr[mid] < target) {
+      lo = mid + 1;
+    } else {
+      return mid;
     }
+  }
 
-    return high;
-};
+  return -1;
+}
+
 
 console.log(binarSearch([10, 20, 30, 40, 50], 35))
 
@@ -419,7 +455,7 @@ Function.prototype.bind2 = function (context) {
 }
 
 圣杯布局
-https://segmentfault.com/a/1190000008705541
+// https://segmentfault.com/a/1190000008705541
 
 
 Promise.all 实现代码
@@ -507,5 +543,176 @@ Child.prototype = Object.create(Super.prototype, {
     writable: true,
     configurable: true
   }
+});
+```
+
+```
+// 浏览器渲染原理
+https://juejin.im/entry/59e1d31f51882578c3411c77
+
+HTML 页面有三个重要生生命周期函数
+
+DOMContentLoaded :
+浏览器完全加载了HTML文件，DOM树构建完成，但是外部资源像<img> 和样式表可能还没有完全加载
+load:
+HTML加载完成，并且所有其他外部资源也加载完毕(比如img和link)
+beforeunload/unload
+用户离开页面
+
+css加载不会阻塞DOM树解析，但是会阻塞DOM树渲染
+参考如下文章:
+https://juejin.im/post/5b88ddca6fb9a019c7717096
+```
+
+
+```
+bfc知识点:
+https://juejin.im/post/5c860afd6fb9a049fd10ab9d
+```
+
+// 红绿灯问题
+```
+
+function creatLight(type) {
+  return function (time) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        console.log(type);
+        resolve(type);
+
+      }, time)
+    })
+  }
+}
+
+const setRedLight = creatLight('red');
+const setYellowLight = creatLight('yellow');
+const setGreenLight = creatLight('green');
+
+async function setLight() {
+  await setRedLight(2000);
+  await setYellowLight(1000);
+  await setGreenLight(3000);
+  await setLight();
+}
+
+setLight();
+```
+
+继承问题
+
+```
+function Ofo() { }
+function Bick() {
+  this.name = 'mybick'
+}
+
+var myBick = new Ofo()      // 此时实例的__proto__指向原来的Ofo的prototype 而不是Bick的实例，也就没有name属性
+Ofo.prototype = new Bick()
+var youbick = new Bick()
+console.log(myBick.name)  // undefined
+console.log(youbick.name) // mybick
+```
+
+## 队列问题
+
+```
+async function async1() {
+  console.log('async1 start')
+  var r = await async2();
+  // 上面的await等价下面的这句表达
+  // Promise.resolve(async2promise).then(next)
+  console.log(r);
+  console.log('async1 end')
+}
+async function async2() {
+  console.log('async2')
+}
+console.log('script start')
+setTimeout(function () {
+  console.log('setTimeout')
+}, 0)
+async1();
+new Promise(function (resolve) {
+  console.log('promise1')
+  resolve();
+}).then(function () {
+  console.log('promise2')
+})
+console.log('script end')
+
+```
+
+
+## 什么是内存泄漏
+
+```
+内存泄漏就是由于疏忽或错误造成程序未能释放那些已经不再使用的内存，造成内存浪费。
+```
+
+## 什么是闭包
+
+```
+一个内部函数，有权访问包含其的外部函数中的变量。
+```
+
+## js的内存管理
+
+```
+https://juejin.im/post/5d116a9df265da1bb47d717b
+```
+
+
+## generator的自动运行
+
+```
+function* gen(p) {
+  console.log('p=', p);
+  const a = yield 1;
+  console.log('a=', a);
+  const b = yield 2;
+  console.log('b=', b);
+  const c = yield 3;
+  console.log('c=', c);
+  return 4;
+}
+function spawn(genF) {
+  return new Promise((resolve, reject) => {
+    const gen = genF();
+
+    function step(nextF) {
+      let next;
+
+      try {
+        next = nextF();
+      } catch (e) {
+        reject(e);
+      }
+
+      if (next.done) {
+        return resolve(next.value);
+      }
+
+      Promise.resolve(next.value).then(function (v) {
+        step(function () {
+          return gen.next(v);
+        })
+      }, function (e) {
+        step(function () {
+          return gen.throw(e);
+        })
+      })
+
+    }
+
+    step(function () {
+      return gen.next();
+    })
+
+  })
+}
+
+spawn(gen).then((res) => {
+  console.log('res', res);
 });
 ```

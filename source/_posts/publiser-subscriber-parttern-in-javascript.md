@@ -92,5 +92,51 @@ sub.add(observer2);
 sub.notify('I fired `SMS` event');
 ```
 
+## 完整的发布-订阅模式代码
+```
+class Event {
+    constructor() {
+        this.clientList = {};
+    }
+    listen(key, fn) {
+        if (!this.clientList[key]) {
+            this.clientList[key] = [];
+        }
+        this.clientList[key].push(fn);
+    }
+    trigger() {
+        var key = Array.prototype.shift.call(arguments),
+            fns = this.clientList[key];
+        if (!fns || fns.length === 0) {
+            return false;
+        }
+        for (var i = 0, fn; fn = fns[i++];) {
+            fn.apply(this, arguments);
+        }
+    }
+    remove(key, fn) {
+        var fns = this.clientList[key];
+        if (!fns) {
+            return false;
+        }
+
+        if (!fn) {
+            fns && (fns.length = 0);
+        } else {
+            for (var l = fns.length - 1; l >= 0; l--) {
+            var _fn = fns[l];
+            if (_fn === fn) {
+                fns.splice(l, 1);
+            }
+            }
+        }
+    }
+
+}
+
+var event = new Event();
+
+```
+
 ## 总结
 从代码实现可以看出，发布-订阅者模式是面向调度中心编程的，而观察者模式则是面向目标和观察者编程的。前者用于解耦发布者和订阅者，后者用于耦合目标和观察者。

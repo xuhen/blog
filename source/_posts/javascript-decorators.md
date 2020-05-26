@@ -114,7 +114,7 @@ class Example {
 const e = new Example();
 e.a = 1;
 e.b = 2;
-// TypeError: Cannot assign to read only property 'b' of object '#<Example>'
+TypeError: Cannot assign to read only property 'b' of object '#<Example>'
 ```
 
 我们能丰富下上面的例子。我们能让这个装饰器有不一样的行为。比如输出所有的输入输出日志。
