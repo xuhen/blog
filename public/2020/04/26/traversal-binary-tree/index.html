@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="This is the blog page of Edward">
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        二叉树的遍历（前序，中序，后序） - undefined
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i>  </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="https://dn-coding-net-production-static.qbox.me/static/7a51352fa766f4176d7c4543339e0e98.png" />
+        </div>
+        <div class="name">
+            <i>Edward xu</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i>  </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        二叉树的遍历（前序，中序，后序）
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2020-04-26 10:51:57</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/tags/#algorithm" title="algorithm">algorithm</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <blockquote>
+<p>二叉树，这样的结构还是很常见的，二叉树的遍历更是数型算法的基础。那今天就介绍下二次数的非递归遍历。二叉树分前序遍历、中序遍历、后序遍历。</p>
+</blockquote>
+<p>如果按照下面的树：<br>前序： 根 -&gt; 左 -&gt; 右     =&gt;  1, 2, 4, 5, 3, 6, 7<br>中序： 左 -&gt; 根 -&gt; 右     =&gt;  4, 2, 5, 1, 6, 3, 7<br>后序： 左 -&gt; 右 -&gt; 根     =&gt;  4, 5, 2, 6, 7, 3, 1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">示例二叉树：</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">               1</span><br><span class="line">          /          \</span><br><span class="line">        2            3</span><br><span class="line">      /    \         /    \</span><br><span class="line">    4       5     6     7</span><br></pre></td></tr></table></figure>
+<p>二叉树的三种遍历都要使用stack（栈）这样的数据结构。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">function Stack() &#123;</span><br><span class="line">    this.stack = [];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Stack.prototype.isEmpty = function () &#123;</span><br><span class="line">    return this.stack.length === 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Stack.prototype.push = function (item) &#123;</span><br><span class="line">    if (item) &#123;</span><br><span class="line">        this.stack.push(item)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">Stack.prototype.pop = function () &#123;</span><br><span class="line">    if (!this.isEmpty()) &#123;</span><br><span class="line">        return this.stack.pop();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Stack.prototype.peek = function () &#123;</span><br><span class="line">    if (!this.isEmpty()) &#123;</span><br><span class="line">        return this.stack[this.stack.length - 1]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>节点我们定义成：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">function Node(value) &#123;</span><br><span class="line">    this.value = value;</span><br><span class="line">    this.left = null;</span><br><span class="line">    this.right = null;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var n1 = new Node(1)</span><br><span class="line">var n2 = new Node(2)</span><br><span class="line">var n3 = new Node(3)</span><br><span class="line">var n4 = new Node(4)</span><br><span class="line">var n5 = new Node(5)</span><br><span class="line">var n6 = new Node(6)</span><br><span class="line">var n7 = new Node(7)</span><br><span class="line"></span><br><span class="line">n1.left = n2;</span><br><span class="line">n1.right = n3;</span><br><span class="line">n2.left = n4;</span><br><span class="line">n2.right = n5;</span><br><span class="line">n3.left = n6;</span><br><span class="line">n3.right = n7;</span><br></pre></td></tr></table></figure></p>
+<p>前序遍历<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">function preorderTraversal(root) &#123;</span><br><span class="line">    var node = root;</span><br><span class="line">    var stack = new Stack();</span><br><span class="line">    while (node !== null || !stack.isEmpty()) &#123;</span><br><span class="line">        while (node !== null) &#123;</span><br><span class="line">            console.log(node.value);</span><br><span class="line">            stack.push(node);</span><br><span class="line">            node = node.left;</span><br><span class="line">        &#125;</span><br><span class="line">        if (!stack.isEmpty()) &#123;</span><br><span class="line">            node = stack.pop();</span><br><span class="line">            node = node.right;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">preorderTraversal(n1)</span><br></pre></td></tr></table></figure></p>
+<p>中序遍历：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">function inorderTraversal(root) &#123;</span><br><span class="line">    var stack = new Stack();</span><br><span class="line">    var node = root;</span><br><span class="line">    while (node !== null || !stack.isEmpty()) &#123;</span><br><span class="line">        while (node !== null) &#123;</span><br><span class="line">            stack.push(node);</span><br><span class="line">            node = node.left;</span><br><span class="line">        &#125;</span><br><span class="line">        if (!stack.isEmpty()) &#123;</span><br><span class="line">            node = stack.pop();</span><br><span class="line">            console.log(node.value);</span><br><span class="line">            node = node.right;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">inorderTraversal(n1)</span><br></pre></td></tr></table></figure>
+<p>后序遍历：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">function postorderTraversal(root) &#123;</span><br><span class="line">    var stack = new Stack();</span><br><span class="line">    var node = root;</span><br><span class="line">    var lastVisit = root;</span><br><span class="line">    while (node !== null || !stack.isEmpty()) &#123;</span><br><span class="line">        while (node !== null) &#123;</span><br><span class="line">            stack.push(node);</span><br><span class="line">            node = node.left;</span><br><span class="line">        &#125;</span><br><span class="line">        node = stack.peek();</span><br><span class="line">        if (node.right === null || node.right === lastVisit) &#123;</span><br><span class="line">            console.log(node.value);</span><br><span class="line">            stack.pop();</span><br><span class="line">            lastVisit = node;</span><br><span class="line">            node = null</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            node = node.right;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">postorderTraversal(n1)</span><br></pre></td></tr></table></figure>
+        
+        <div id="comment-container">
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = ""
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</html>
