@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="This is the blog page of Edward">
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        javascript 混入模式 (mixin) - undefined
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i>  </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="https://dn-coding-net-production-static.qbox.me/static/7a51352fa766f4176d7c4543339e0e98.png" />
+        </div>
+        <div class="name">
+            <i>Edward xu</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#函数复用"><span class="toc-text">函数复用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基础"><span class="toc-text">基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用案例"><span class="toc-text">使用案例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-经典混入"><span class="toc-text">1. 经典混入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-函数式混入"><span class="toc-text">2. 函数式混入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-添加配置项"><span class="toc-text">3. 添加配置项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-增加缓存"><span class="toc-text">4. 增加缓存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-增加柯粒化-curry"><span class="toc-text">5. 增加柯粒化(curry)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结束语"><span class="toc-text">结束语</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i>  </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        javascript 混入模式 (mixin)
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2020-11-21 11:05:10</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#js" title="js">js</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#design parttern" title="design parttern">design parttern</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <blockquote>
+<p>在这篇文章中我们将细致的探讨 <em>mixins</em>；本文不打算用常规的方式介绍，而是用比较直观自然的方式去介绍 <em>mixin</em> 的一些策略。</p>
+</blockquote>
+<h2 id="函数复用"><a href="#函数复用" class="headerlink" title="函数复用"></a>函数复用</h2><p>在 JavaScript 里，一个对象 (A) 隐藏的 <code>__proto__</code> 属性会以指针的方式指向一个 <code>prototype</code> 对象 (B)，利用这点 A 可以继承 B 对象上的方法和属性。<em>prototypes</em> 对于代码复用来说是非常棒的：一个 <em>prototype</em> 实例定义的属性可以被无限多个对象继承下来。<em>prototypes</em> 也可以继承来自其他 <em>prototypes</em> 的属性，这样就形成了 prototype 链。我们也可以利用这点去模拟其他语言(Java, C++)里的层级继承。对于描述物品的类型关系，继承是一种方式；如果我们的主要动机是函数的复用，那继承就变成迷宫一样无任何意义的子类了。里面会充斥着冗余代码和难以理解的逻辑（这个按钮是矩形框还是绑定了事件的控制组件？那就让我们 Button 继承自 Rectangle、Rectangle 再继承自 Control…）</p>
+<p>幸运的是，对于函数的复用，在 JavaScript 里有更好的选择。对比更严格类型的语言，JavaScript 里的对象能够调用任何函数。方式就是代理 - 任何方法都能通过 <code>call</code> 和 <code>apply</code>去调用。这是一个强大的特性，在第三方的库里面能看到有大量的使用。但是，代理的便利性有时和代码库里结构化规则是相矛盾的；换句话说这种语法太冗长了。<code>Mixins</code> 就是一个很好的折中方案，允许整个函数代码被 “借用”，语法简洁而且最重要的是和 <code>prototypes</code> 很好的融合。它提供了有描述性的层级继承、避免了逻辑的混乱。</p>
+<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><p>在通用计算机科学上，<em>mixin</em> 是一个 <em>class</em>，这个类定义了一套和类型（e.g. Person, Circle, Observer）有关的方法。<code>Mixins</code> 类通常也被认为是抽象类，即它们本身不会被实例化；相反它们上面的方法会被具体的类复制（也叫 “借用”）。这种方式可以只 “继承” 行为而不会和这个行为的提供者类有直接的关系。</p>
+<p>好吧，在 JavaScript 里，我们没有类的概念。这实际上是个好事，这就意味着我们能用对象实例了；对象实例提供了清晰性和灵活性 - 我们的 <code>mixin</code> 可以是普通对象、 <code>prototype</code> 对象或函数，混入的过程就变得含义清楚了。</p>
+<h2 id="使用案例"><a href="#使用案例" class="headerlink" title="使用案例"></a>使用案例</h2><p>我将讨论一些 <code>mixin</code> 的技巧，所有这些示例都是同一个案例：创建圆形、半圆和矩形按钮。下图是一个纲要性的图示；矩形里代表 <code>mixin</code> 对象，圆形里代表实际的按钮。</p>
+<p><img src="https://javascriptweblog.files.wordpress.com/2011/05/mixin3.jpg?w=2216" alt="mixin"></p>
+<h3 id="1-经典混入"><a href="#1-经典混入" class="headerlink" title="1. 经典混入"></a>1. 经典混入</h3><p>当你在百度或者谷歌里输入 <em>javascript mixin</em> 关键字去搜索相关文章时，笔者注意到大部分定义的 mixin 是构造函数和在构造函数 <code>prototoype</code> 上定义一些方法。这可以看成是其他语言在 JavaScript 的自然延续 - 早期的 mixin 都是 class，这是在 JavaScript 里最接近其他语言“类”的定义了，下面是一个圆混入类的示例：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Circle = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line">Circle.prototype = &#123;</span><br><span class="line">  area: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Math</span>.PI * <span class="keyword">this</span>.radius * <span class="keyword">this</span>.radius;</span><br><span class="line">  &#125;,</span><br><span class="line">  grow: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.radius++;</span><br><span class="line">  &#125;,</span><br><span class="line">  shrink: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.radius--;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>在实际中，没有必要像上面的方式去定义 mixin。简单的对象字面量就足够了：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> circleFns = &#123;</span><br><span class="line">  area: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Math</span>.PI * <span class="keyword">this</span>.radius * <span class="keyword">this</span>.radius;</span><br><span class="line">  &#125;,</span><br><span class="line">  grow: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.radius++;</span><br><span class="line">  &#125;,</span><br><span class="line">  shrink: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.radius--;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>extend 函数</strong></p>
+<p>怎样把 mixin 对象里的方法混入别的对象？答案是通过 extend 函数（也叫 augment）。通常 <code>extend</code> 只是简单的复制 mixin 里的方法到目标对象。也存在一些小的变形实现。比如 <code>Prototype.js</code> 就忽略 <code>hasOwnProperty</code> 的检查 （这个库假设了 mixin 在原型链上没有可遍历的属性）然而其他版本的实现假设我们只想复制 mixin 本身的属性。下面的实现兼具安全性和可扩展性：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">extend</span>(<span class="params">destination, source</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> k <span class="keyword">in</span> source) &#123;</span><br><span class="line">    <span class="keyword">if</span> (source.hasOwnProperty(k)) &#123;</span><br><span class="line">      destination[k] = source[k];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> destination;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下面我们可以用 extend 函数去扩展 prototype 对象上的方法…</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> RoundButton = <span class="function"><span class="keyword">function</span> (<span class="params">radius, label</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.radius = radius;</span><br><span class="line">  <span class="keyword">this</span>.label = label;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">extend(RoundButton.prototype, circleFns);</span><br><span class="line">extend(RoundButton.prototype, buttonFns);</span><br></pre></td></tr></table></figure>
+<h3 id="2-函数式混入"><a href="#2-函数式混入" class="headerlink" title="2. 函数式混入"></a>2. 函数式混入</h3><p>如果 mixin 对象上定义的方法只是让其他对象来复制，为什么我们要大费周章的把 mixin 创建成普通的对象呢？换句话说，混入应该是一个过程而不是目的。比较好的方案是把 mixin 定义成函数，然后通过代理的方式注入到目标对象，这样就能去掉中间这层（extend 函数）:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> asCircle = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.area = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Math</span>.PI * <span class="keyword">this</span>.radius * <span class="keyword">this</span>.radius;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">this</span>.grow = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.radius++;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">this</span>.shrink = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.radius--;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> Circle = <span class="function"><span class="keyword">function</span> (<span class="params">radius</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.radius = radius;</span><br><span class="line">&#125;;</span><br><span class="line">asCircle.call(Circle.prototype);</span><br><span class="line"><span class="keyword">var</span> circle1 = <span class="keyword">new</span> Circle(<span class="number">5</span>);</span><br><span class="line">circle1.area(); <span class="comment">//78.54</span></span><br></pre></td></tr></table></figure>
+<p>这种方式感觉更好了，mixin 是动词而不是名称。这样写的另一个好处是更自然简洁了：this 总是指向目标对象而不是 mixin 对象本身。和传统混入的方式比起来，不会再粗心地复制继承的属性了；并且现在是拷贝 (clone) 而不是复制 (copy) 了。</p>
+<p>下面是混入按钮的函数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> asButton = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.hover = <span class="function"><span class="keyword">function</span> (<span class="params">bool</span>) </span>&#123;</span><br><span class="line">    bool ? mylib.appendClass(<span class="string">'hover'</span>) : mylib.removeClass(<span class="string">'hover'</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">this</span>.press = <span class="function"><span class="keyword">function</span> (<span class="params">bool</span>) </span>&#123;</span><br><span class="line">    bool ? mylib.appendClass(<span class="string">'pressed'</span>) : mylib.removeClass(<span class="string">'pressed'</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">this</span>.fire = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.action();</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>将两个 mixins 放在一起我们得到了圆形的按钮：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> RoundButton = <span class="function"><span class="keyword">function</span> (<span class="params">radius, label, action</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.radius = radius;</span><br><span class="line">  <span class="keyword">this</span>.label = label;</span><br><span class="line">  <span class="keyword">this</span>.action = action;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">asButton.call(RoundButton.prototype);</span><br><span class="line">asCircle.call(RoundButton.prototype);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> button1 = <span class="keyword">new</span> RoundButton(<span class="number">4</span>, <span class="string">'yes!'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">'you said yes!'</span>;</span><br><span class="line">&#125;);</span><br><span class="line">button1.fire(); <span class="comment">//'you said yes!'</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-添加配置项"><a href="#3-添加配置项" class="headerlink" title="3. 添加配置项"></a>3. 添加配置项</h3><p>这种定义 mixin 为函数的方式，也允许我们通过传递配置项去参数化“被借用”的行为。下面让我我们通过示例了解这种用法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> asOval = <span class="function"><span class="keyword">function</span> (<span class="params">options</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.area = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Math</span>.PI * <span class="keyword">this</span>.longRadius * <span class="keyword">this</span>.shortRadius;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">this</span>.ratio = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.longRadius / <span class="keyword">this</span>.shortRadius;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">this</span>.grow = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.shortRadius += options.growBy / <span class="keyword">this</span>.ratio();</span><br><span class="line">    <span class="keyword">this</span>.longRadius += options.growBy;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">this</span>.shrink = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.shortRadius -= options.shrinkBy / <span class="keyword">this</span>.ratio();</span><br><span class="line">    <span class="keyword">this</span>.longRadius -= options.shrinkBy;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> OvalButton = <span class="function"><span class="keyword">function</span> (<span class="params">longRadius, shortRadius, label, action</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.longRadius = longRadius;</span><br><span class="line">  <span class="keyword">this</span>.shortRadius = shortRadius;</span><br><span class="line">  <span class="keyword">this</span>.label = label;</span><br><span class="line">  <span class="keyword">this</span>.action = action;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">asButton.call(OvalButton.prototype);</span><br><span class="line">asOval.call(OvalButton.prototype, &#123; <span class="attr">growBy</span>: <span class="number">2</span>, <span class="attr">shrinkBy</span>: <span class="number">2</span> &#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> button2 = <span class="keyword">new</span> OvalButton(<span class="number">3</span>, <span class="number">2</span>, <span class="string">'send'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">'message sent'</span>;</span><br><span class="line">&#125;);</span><br><span class="line">button2.area(); <span class="comment">//18.84955592153876</span></span><br><span class="line">button2.grow();</span><br><span class="line">button2.area(); <span class="comment">//52.35987755982988</span></span><br><span class="line">button2.fire(); <span class="comment">//'message sent'</span></span><br></pre></td></tr></table></figure>
+<h3 id="4-增加缓存"><a href="#4-增加缓存" class="headerlink" title="4. 增加缓存"></a>4. 增加缓存</h3><p>或许上面的实现混入的方式对性能的影响让我们感到担忧，因为我们每次调用 call 的时候都会在每个原型对象上重复定义一遍这些方法。考虑到这些 mixins 只有类型定义的时候才会被调用一次（对比金典模式中每次实例化被调用），这种低频次的创建我们不用太担心。</p>
+<p>但是，如果你依然感到担忧，这里还有一个方法。通过在 mixin 上形成闭包我们能缓存初始化的结果。现在，在每个浏览器里，函数化的混入在性能上都大幅度优于经典模式了。</p>
+<p>下面是 <code>asRectangle</code> 增加缓存的版本：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> asRectangle = (<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">area</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.length * <span class="keyword">this</span>.width;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">grow</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.length++, <span class="keyword">this</span>.width++;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">shrink</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.length--, <span class="keyword">this</span>.width--;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.area = area;</span><br><span class="line">    <span class="keyword">this</span>.grow = grow;</span><br><span class="line">    <span class="keyword">this</span>.shrink = shrink;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> RectangularButton = <span class="function"><span class="keyword">function</span> (<span class="params">length, width, label, action</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.length = length;</span><br><span class="line">  <span class="keyword">this</span>.width = width;</span><br><span class="line">  <span class="keyword">this</span>.label = label;</span><br><span class="line">  <span class="keyword">this</span>.action = action;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">asButton.call(RectangularButton.prototype);</span><br><span class="line">asRectangle.call(RectangularButton.prototype);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> button3 = <span class="keyword">new</span> RectangularButton(<span class="number">4</span>, <span class="number">2</span>, <span class="string">'delete'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">'deleted'</span>;</span><br><span class="line">&#125;);</span><br><span class="line">button3.area(); <span class="comment">//8</span></span><br><span class="line">button3.grow();</span><br><span class="line">button3.area(); <span class="comment">//15</span></span><br><span class="line">button3.fire(); <span class="comment">//'deleted'</span></span><br></pre></td></tr></table></figure>
+<h3 id="5-增加柯粒化-curry"><a href="#5-增加柯粒化-curry" class="headerlink" title="5. 增加柯粒化(curry)"></a>5. 增加柯粒化(curry)</h3><p>世事充满了权衡，前面提到的缓存增强也不例外。我们失去了为每次混入创建克隆的能力了；更糟糕的是我们混入的时候也不能通过配置参数去自定义借用函数了。后面的问题可以通过为每个缓存的函数创建柯粒化副本去规避；从而提前把配置项赋值给每个函数调用。</p>
+<p>下面是 <code>asRectangle</code> mixin 的函数被柯粒化允许 <code>grow</code> 和 <code>shrink</code> 函数被自定义：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.curry = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> fn = <span class="keyword">this</span>;</span><br><span class="line">  <span class="keyword">var</span> args = [].slice.call(<span class="built_in">arguments</span>, <span class="number">0</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> fn.apply(<span class="keyword">this</span>, args.concat([].slice.call(<span class="built_in">arguments</span>, <span class="number">0</span>)));</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> asRectangle = (<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">area</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.length * <span class="keyword">this</span>.width;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">grow</span>(<span class="params">growBy</span>) </span>&#123;</span><br><span class="line">    (<span class="keyword">this</span>.length += growBy), (<span class="keyword">this</span>.width += growBy);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">shrink</span>(<span class="params">shrinkBy</span>) </span>&#123;</span><br><span class="line">    (<span class="keyword">this</span>.length -= shrinkBy), (<span class="keyword">this</span>.width -= shrinkBy);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">options</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.area = area;</span><br><span class="line">    <span class="keyword">this</span>.grow = grow.curry(options[<span class="string">'growBy'</span>]);</span><br><span class="line">    <span class="keyword">this</span>.shrink = shrink.curry(options[<span class="string">'shrinkBy'</span>]);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">asButton.call(RectangularButton.prototype);</span><br><span class="line">asRectangle.call(RectangularButton.prototype, &#123; <span class="attr">growBy</span>: <span class="number">2</span>, <span class="attr">shrinkBy</span>: <span class="number">2</span> &#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> button4 = <span class="keyword">new</span> RectangularButton(<span class="number">2</span>, <span class="number">1</span>, <span class="string">'add'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">'added'</span>;</span><br><span class="line">&#125;);</span><br><span class="line">button4.area(); <span class="comment">//2</span></span><br><span class="line">button4.grow();</span><br><span class="line">button4.area(); <span class="comment">//12</span></span><br><span class="line">button4.fire(); <span class="comment">//'added'</span></span><br></pre></td></tr></table></figure>
+<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>JavaScript 是函数和状态的混合物。状态通常来说就是对象实例，而且函数总是会被跨实例共用。或许把这两者明显的隔离开是我们想要的结果，然后用混入的方式再把两者关联起来？</p>
+<p>特别的，函数式混入模式提供了清晰的框架。对象实例就是充当状态，函数被组织在一起，就像树上的水果被挑拣一样。</p>
+
+        
+        <div id="comment-container">
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = ""
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</html>
