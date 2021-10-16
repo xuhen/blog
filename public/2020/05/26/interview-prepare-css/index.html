@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="This is the blog page of Edward">
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        面试CSS部分的准备 - undefined
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i>  </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="https://dn-coding-net-production-static.qbox.me/static/7a51352fa766f4176d7c4543339e0e98.png" />
+        </div>
+        <div class="name">
+            <i>Edward xu</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#画三角形"><span class="toc-text">画三角形</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS-的选择器有哪些"><span class="toc-text">CSS 的选择器有哪些</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS优先级如何计算"><span class="toc-text">CSS优先级如何计算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS的伪类有哪些"><span class="toc-text">CSS的伪类有哪些</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#margin重合的问题"><span class="toc-text">margin重合的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#等比列缩放的盒子"><span class="toc-text">等比列缩放的盒子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#浏览器是怎样解析CSS选择器的？"><span class="toc-text">浏览器是怎样解析CSS选择器的？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#怎么让Chrome支持小于12px-的文字？"><span class="toc-text">怎么让Chrome支持小于12px 的文字？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#style标签写在body后与body前有什么区别？"><span class="toc-text">style标签写在body后与body前有什么区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#浏览器重绘-repaint-和重排-reflow"><span class="toc-text">浏览器重绘(repaint)和重排(reflow)</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i>  </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        面试CSS部分的准备
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2020-05-26 20:13:45</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/tags/#CSS" title="CSS">CSS</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <h2 id="画三角形"><a href="#画三角形" class="headerlink" title="画三角形"></a>画三角形</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">html</span><br><span class="line">&lt;div class=&quot;arrow&quot;&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">css</span><br><span class="line">.arrow &#123;</span><br><span class="line">    width: 0;</span><br><span class="line">    height: 0;</span><br><span class="line">    border-top: 40px solid transparent;</span><br><span class="line">    border-left: 40px solid transparent;</span><br><span class="line">    border-bottom: 40px solid transparent;</span><br><span class="line">    border-right: 40px solid green;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="CSS-的选择器有哪些"><a href="#CSS-的选择器有哪些" class="headerlink" title="CSS 的选择器有哪些"></a>CSS 的选择器有哪些</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">1. id选择器(#myid)</span><br><span class="line">2. 类选择器(.myclass)</span><br><span class="line">3. 标签选择器(div, h1, p)</span><br><span class="line">4. 相邻选择器(h1 + p)</span><br><span class="line">5. 子选择器(ul &gt; li)</span><br><span class="line">6. 后代选择器(li a)</span><br><span class="line">7. 属性选择器(a[rel=&quot;external&quot;])</span><br><span class="line">8. 通配符选择器 (*)</span><br><span class="line">9. 伪类选择器(a:hover, li:nth-child)</span><br><span class="line">10.伪元素选择器 (div:after)</span><br><span class="line"></span><br><span class="line">可继承的属性： font-size, font-family, color</span><br><span class="line">不可继承的属性： border, padding, margin, width, height</span><br></pre></td></tr></table></figure>
+<h2 id="CSS优先级如何计算"><a href="#CSS优先级如何计算" class="headerlink" title="CSS优先级如何计算"></a>CSS优先级如何计算</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!important(10000) &gt; 内联样式(1000) &gt; id(100) &gt; class|伪类|属性选择(10) &gt; 标签|伪元素(1) &gt; 通配符(0) &gt; 继承(无)</span><br></pre></td></tr></table></figure>
+<h2 id="CSS的伪类有哪些"><a href="#CSS的伪类有哪些" class="headerlink" title="CSS的伪类有哪些"></a>CSS的伪类有哪些</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">p:first-of-type 选择属于其父元素的首个元素</span><br><span class="line">p:last-of-type 选择属于其父元素的最后元素</span><br><span class="line">p:only-of-type 选择属于其父元素唯一的元素</span><br><span class="line">p:only-child 选择属于其父元素的唯一子元素</span><br><span class="line">p:nth-child(2) 选择属于其父元素的第二个子元素</span><br><span class="line">:enabled :disabled 表单控件的禁用状态。</span><br><span class="line">:checked 单选框或复选框被选中。</span><br></pre></td></tr></table></figure>
+<h2 id="margin重合的问题"><a href="#margin重合的问题" class="headerlink" title="margin重合的问题"></a>margin重合的问题</h2><p>在重合元素外包裹一层容器，并触发该容器生成一个BFC。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">html</span><br><span class="line">&lt;div class=&quot;aside&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;div class=&quot;text&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;main&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">css</span><br><span class="line">.aside &#123;</span><br><span class="line">    margin-bottom: 100px;</span><br><span class="line">    width: 100px;</span><br><span class="line">    height: 150px;</span><br><span class="line">    background: #f66;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.main &#123;</span><br><span class="line">    margin-top: 100px;</span><br><span class="line">    height: 200px;</span><br><span class="line">    background: #fcc;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.text &#123;</span><br><span class="line">    /*盒子main的外面包一个div，通过改变此div的属性使两个盒子分属于两个不同的BFC，以此来阻止margin重叠*/</span><br><span class="line">    overflow: hidden;</span><br><span class="line">    /*此时已经触发了BFC属性。*/</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="等比列缩放的盒子"><a href="#等比列缩放的盒子" class="headerlink" title="等比列缩放的盒子"></a>等比列缩放的盒子</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;father&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;child&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">.father &#123;</span><br><span class="line">    width: 100%;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.child &#123;</span><br><span class="line">    width: 40%;</span><br><span class="line">    height: 0;</span><br><span class="line">    padding-top: 30%;</span><br><span class="line">    background: black;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="浏览器是怎样解析CSS选择器的？"><a href="#浏览器是怎样解析CSS选择器的？" class="headerlink" title="浏览器是怎样解析CSS选择器的？"></a>浏览器是怎样解析CSS选择器的？</h2><p>CSS选择器的解析是从右向左解析的。若从左向右的匹配，发现不符合规则，需要进行回溯，会损失很多性能。若从右向左匹配，先找到所有的最右节点，对于每一个节点，向上寻找其父节点直到找到根元素或满足条件的匹配规则，则结束这个分支的遍历。</p>
+<p>两种匹配规则的性能差别很大，是因为从右向左的匹配在第一步就筛选掉了大量的不符合条件的最右节点（叶子节点），而从左向右的匹配规则的性能都浪费在了失败的查找上面。</p>
+<p>而在 CSS 解析完毕后，需要将解析的结果与 DOM Tree 的内容一起进行分析建立一棵 Render Tree，最终用来进行绘图。在建立 Render Tree 时（WebKit 中的「Attachment」过程），浏览器就要为每个 DOM Tree 中的元素根据 CSS 的解析结果（Style Rules）来确定生成怎样的 Render Tree。</p>
+<h2 id="怎么让Chrome支持小于12px-的文字？"><a href="#怎么让Chrome支持小于12px-的文字？" class="headerlink" title="怎么让Chrome支持小于12px 的文字？"></a>怎么让Chrome支持小于12px 的文字？</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p&#123; font-size:10px;-webkit-transform:scale(0.8); &#125; //0.8是缩放比例</span><br></pre></td></tr></table></figure>
+<h2 id="style标签写在body后与body前有什么区别？"><a href="#style标签写在body后与body前有什么区别？" class="headerlink" title="style标签写在body后与body前有什么区别？"></a>style标签写在body后与body前有什么区别？</h2><p>页面加载自上而下 当然是先加载样式。</p>
+<p>写在body标签后由于浏览器以逐行方式对HTML文档进行解析，当解析到写在尾部的样式表（外联或写在style标签）会导致浏览器停止之前的渲染，等待加载且解析样式表完成之后重新渲染，在windows的IE下可能会出现FOUC现象（即样式失效导致的页面闪烁问题）</p>
+<h2 id="浏览器重绘-repaint-和重排-reflow"><a href="#浏览器重绘-repaint-和重排-reflow" class="headerlink" title="浏览器重绘(repaint)和重排(reflow)"></a>浏览器重绘(repaint)和重排(reflow)</h2><p>引发重排的事件</p>
+<ul>
+<li>改变视图窗口的大小</li>
+<li>改变文字的大小</li>
+<li>改变元素边距</li>
+<li>元素的位置重新定位（脱离文档流）</li>
+<li>操作DOM</li>
+<li>添加/删除样式表，操作class属性，设置style属性</li>
+<li>CSS动画属性</li>
+</ul>
+<p><img src="http://xuheng.inject.top/images/reflow_props.jpg" alt="reflow"></p>
+<p>引发重绘的事件</p>
+<ul>
+<li>修改元素外观属性，如修改文字颜色/图片背景色等</li>
+<li>所有重排事件都会引发重绘</li>
+</ul>
+<p><img src="http://xuheng.inject.top/images/repaint_props.jpg" alt="reflow"></p>
+<p>如何减少重排</p>
+<ul>
+<li>对DOM进行多次添加删除操作时，使用documentFragment对象。</li>
+<li>操作元素时使用定位，脱落文档流或者display:none隐藏该元素</li>
+<li>避免逐项更改样式，将样式列表定义为class并一次更改class属性</li>
+<li>避免循环读取offsetLeft等属性，在循环之前将它们缓存起来</li>
+<li>避免使用table布局</li>
+</ul>
+
+        
+        <div id="comment-container">
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = ""
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</html>

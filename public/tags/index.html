@@ -56,25 +56,25 @@
             <li >
                 <a href="/">
                     <i class="iconfont icon-shouye1"></i>
-                    <span>主页</span>
+                    <span>HOME</span>
                 </a>
             </li>
             <li  class=active >
                 <a href="/tags">
                     <i class="iconfont icon-biaoqian1"></i>
-                    <span>标签</span>
+                    <span>TAGS</span>
                 </a>
             </li>
             <li >
                 <a href="/archives">
                     <i class="iconfont icon-guidang2"></i>
-                    <span>存档</span>
+                    <span>ARCHIVES</span>
                 </a>
             </li>
             <li >
                 <a href="/about/">
                     <i class="iconfont icon-guanyu2"></i>
-                    <span>关于</span>
+                    <span>ABOUT</span>
                 </a>
             </li>
             
@@ -89,7 +89,7 @@
         <div class="search-input">
             <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
             <input id="search-input"/>
-            <span id="begin-search">搜索</span>
+            <span id="begin-search">search</span>
         </div>
         <div class="search-result-container" id="search-result-container">
 
@@ -111,35 +111,37 @@
     
     <a href="#computer" title="computer" rel="1">computer</a>
     
-    <a href="#react" title="react" rel="3">react</a>
-    
-    <a href="#redux" title="redux" rel="1">redux</a>
+    <a href="#browser" title="browser" rel="1">browser</a>
     
     <a href="#js" title="js" rel="8">js</a>
     
-    <a href="#browser" title="browser" rel="1">browser</a>
-    
     <a href="#util" title="util" rel="5">util</a>
     
-    <a href="#algorithm" title="algorithm" rel="4">algorithm</a>
+    <a href="#algorithm" title="algorithm" rel="6">algorithm</a>
     
-    <a href="#decorator" title="decorator" rel="1">decorator</a>
+    <a href="#react" title="react" rel="3">react</a>
     
-    <a href="#interview" title="interview" rel="1">interview</a>
+    <a href="#CSS" title="CSS" rel="1">CSS</a>
     
     <a href="#JSX" title="JSX" rel="1">JSX</a>
-    
-    <a href="#design parttern" title="design parttern" rel="3">design parttern</a>
     
     <a href="#English" title="English" rel="1">English</a>
     
     <a href="#hook" title="hook" rel="2">hook</a>
+    
+    <a href="#design parttern" title="design parttern" rel="3">design parttern</a>
     
     <a href="#mobile" title="mobile" rel="1">mobile</a>
     
     <a href="#async" title="async" rel="1">async</a>
     
     <a href="#web security" title="web security" rel="4">web security</a>
+    
+    <a href="#redux" title="redux" rel="1">redux</a>
+    
+    <a href="#interview" title="interview" rel="1">interview</a>
+    
+    <a href="#decorator" title="decorator" rel="1">decorator</a>
     
 </div>
 
@@ -205,9 +207,9 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
-        <a href="/2020/02/08/understand-nodejs-cluster-module/">
+        <a href="/2020/02/10/using-pm2-manage-nodejs-cluster/">
             <h2 class="post-title">
-                理解nodejs中的cluster模块
+                使用pm2去管理nodejs的cluster模块
             </h2>
             
         </a>
@@ -219,9 +221,9 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
-        <a href="/2020/02/10/using-pm2-manage-nodejs-cluster/">
+        <a href="/2020/02/08/understand-nodejs-cluster-module/">
             <h2 class="post-title">
-                使用pm2去管理nodejs的cluster模块
+                理解nodejs中的cluster模块
             </h2>
             
         </a>
@@ -252,8 +254,8 @@
 </div>
 
 <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="react">
-                    <span class="tag-text">react</span>
+                <span class="fa fa-tag listing-seperator" id="browser">
+                    <span class="tag-text">browser</span>
                 </span>
     
     <!-- <li class="listing-item">
@@ -261,58 +263,9 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
-        <a href="/2020/05/09/countdown-class-component-vs-hook/">
+        <a href="/2020/04/17/detect-useragent-browser/">
             <h2 class="post-title">
-                倒计时的实现（对比class组件和react hook）
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/2019/12/23/react-performance-trick/">
-            <h2 class="post-title">
-                React 应用中的优化技巧
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/2020/01/17/react-list-diff/">
-            <h2 class="post-title">
-                react 使用的 list 最小移动算法
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-</div>
-
-<div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="redux">
-                    <span class="tag-text">redux</span>
-                </span>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/2020/01/08/deep-dive-to-redux-and-friend/">
-            <h2 class="post-title">
-                分析 redux and friends 的实现原理
+                使用 userAgent 检测浏览器环境
             </h2>
             
         </a>
@@ -325,20 +278,6 @@
                 <span class="fa fa-tag listing-seperator" id="js">
                     <span class="tag-text">js</span>
                 </span>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/2020/04/15/drag-drop-section/">
-            <h2 class="post-title">
-                拖动图片和文字
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
     
     <!-- <li class="listing-item">
     <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
@@ -359,23 +298,9 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
-        <a href="/2020/05/13/iterator-in-javascript/">
+        <a href="/2020/04/15/drag-drop-section/">
             <h2 class="post-title">
-                javascript 中的迭代器
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/2020/11/21/javascript-mixins/">
-            <h2 class="post-title">
-                javascript 混入模式 (mixin)
+                拖动图片和文字
             </h2>
             
         </a>
@@ -390,6 +315,20 @@
         <a href="/2020/01/21/js-util-function/">
             <h2 class="post-title">
                 JavaScript 中常用的工具函数
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/2020/05/13/iterator-in-javascript/">
+            <h2 class="post-title">
+                javascript 中的迭代器
             </h2>
             
         </a>
@@ -438,21 +377,14 @@
         <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
     </div>
     
-</div>
-
-<div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="browser">
-                    <span class="tag-text">browser</span>
-                </span>
-    
     <!-- <li class="listing-item">
     <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
-        <a href="/2020/04/17/detect-useragent-browser/">
+        <a href="/2020/11/21/javascript-mixins/">
             <h2 class="post-title">
-                使用 userAgent 检测浏览器环境
+                javascript 混入模式 (mixin)
             </h2>
             
         </a>
@@ -485,9 +417,9 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
-        <a href="/2020/05/13/iterator-in-javascript/">
+        <a href="/2020/01/21/js-util-function/">
             <h2 class="post-title">
-                javascript 中的迭代器
+                JavaScript 中常用的工具函数
             </h2>
             
         </a>
@@ -499,9 +431,9 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
-        <a href="/2020/01/21/js-util-function/">
+        <a href="/2020/05/13/iterator-in-javascript/">
             <h2 class="post-title">
-                JavaScript 中常用的工具函数
+                javascript 中的迭代器
             </h2>
             
         </a>
@@ -548,6 +480,20 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
+        <a href="/2021/10/01/dynamic-programming-memorization/">
+            <h2 class="post-title">
+                动态规划-递归方式 (memeorization)
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
         <a href="/2020/05/07/find-height-of-binary-tree/">
             <h2 class="post-title">
                 求二叉树的深度(递归和非递归两种)
@@ -565,6 +511,20 @@
         <a href="/2020/04/26/priority-queue-data-structure/">
             <h2 class="post-title">
                 优先队列实现
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/2021/10/16/reconstruct-binary-tree-based-on-preorder-and-inorder-array/">
+            <h2 class="post-title">
+                重建二叉树
             </h2>
             
         </a>
@@ -602,8 +562,8 @@
 </div>
 
 <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="decorator">
-                    <span class="tag-text">decorator</span>
+                <span class="fa fa-tag listing-seperator" id="react">
+                    <span class="tag-text">react</span>
                 </span>
     
     <!-- <li class="listing-item">
@@ -611,9 +571,37 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
-        <a href="/2018/10/05/javascript-decorators/">
+        <a href="/2020/05/09/countdown-class-component-vs-hook/">
             <h2 class="post-title">
-                javascript decorators 它们是什么，使用场景
+                倒计时的实现（对比class组件和react hook）
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/2020/01/17/react-list-diff/">
+            <h2 class="post-title">
+                react 使用的 list 最小移动算法
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/2019/12/23/react-performance-trick/">
+            <h2 class="post-title">
+                React 应用中的优化技巧
             </h2>
             
         </a>
@@ -623,8 +611,8 @@
 </div>
 
 <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="interview">
-                    <span class="tag-text">interview</span>
+                <span class="fa fa-tag listing-seperator" id="CSS">
+                    <span class="tag-text">CSS</span>
                 </span>
     
     <!-- <li class="listing-item">
@@ -632,9 +620,9 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
-        <a href="/2020/04/28/interview-prepare/">
+        <a href="/2020/05/26/interview-prepare-css/">
             <h2 class="post-title">
-                面试准备
+                面试CSS部分的准备
             </h2>
             
         </a>
@@ -656,55 +644,6 @@
         <a href="/2020/01/17/jsx-transform-rules/">
             <h2 class="post-title">
                 babel转换jsx的5条规则
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-</div>
-
-<div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="design parttern">
-                    <span class="tag-text">design parttern</span>
-                </span>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/2020/11/21/javascript-mixins/">
-            <h2 class="post-title">
-                javascript 混入模式 (mixin)
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/2020/05/16/publiser-subscriber-parttern-in-javascript/">
-            <h2 class="post-title">
-                javaScript中的发布订阅模式
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/2020/05/17/strategy-pattern-in-js/">
-            <h2 class="post-title">
-                策略模式
             </h2>
             
         </a>
@@ -744,9 +683,9 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
-        <a href="/2019/12/27/react-hook-deep-understand/">
+        <a href="/2019/12/27/react-hook-implement-function-of-redux/">
             <h2 class="post-title">
-                react hook 如何工作解析
+                用 React Hook 配合 Provider 和 Consumer 模拟 Redux 的功能
             </h2>
             
         </a>
@@ -758,9 +697,58 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
-        <a href="/2019/12/27/react-hook-implement-function-of-redux/">
+        <a href="/2019/12/27/react-hook-deep-understand/">
             <h2 class="post-title">
-                用 React Hook 配合 Provider 和 Consumer 模拟 Redux 的功能
+                react hook 如何工作解析
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="design parttern">
+                    <span class="tag-text">design parttern</span>
+                </span>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/2020/05/16/publiser-subscriber-parttern-in-javascript/">
+            <h2 class="post-title">
+                javaScript中的发布订阅模式
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/2020/05/17/strategy-pattern-in-js/">
+            <h2 class="post-title">
+                策略模式
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/2020/11/21/javascript-mixins/">
+            <h2 class="post-title">
+                javascript 混入模式 (mixin)
             </h2>
             
         </a>
@@ -821,6 +809,20 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
+        <a href="/2020/02/20/web-security-series-sop/">
+            <h2 class="post-title">
+                网络安全第四篇之SOP(同源策略)
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
         <a href="/2020/02/17/web-security-series-csp/">
             <h2 class="post-title">
                 网络安全第三篇之CSP
@@ -849,23 +851,72 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
-        <a href="/2020/02/20/web-security-series-sop/">
+        <a href="/2020/02/15/web-security-series-xss/">
             <h2 class="post-title">
-                网络安全第四篇之SOP(同源策略)
+                网络安全第一篇之XSS
             </h2>
             
         </a>
         <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
     </div>
     
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="redux">
+                    <span class="tag-text">redux</span>
+                </span>
+    
     <!-- <li class="listing-item">
     <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
-        <a href="/2020/02/15/web-security-series-xss/">
+        <a href="/2020/01/08/deep-dive-to-redux-and-friend/">
             <h2 class="post-title">
-                网络安全第一篇之XSS
+                分析 redux and friends 的实现原理
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="interview">
+                    <span class="tag-text">interview</span>
+                </span>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/2020/04/28/interview-prepare/">
+            <h2 class="post-title">
+                面试准备
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="decorator">
+                    <span class="tag-text">decorator</span>
+                </span>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/2018/10/05/javascript-decorators/">
+            <h2 class="post-title">
+                javascript decorators 它们是什么，使用场景
             </h2>
             
         </a>
